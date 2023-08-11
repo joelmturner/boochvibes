@@ -1,4 +1,11 @@
+import { defineGlobalStyles } from '@pandacss/dev';
 import { defineConfig } from '@pandacss/dev';
+
+const globalCss = defineGlobalStyles({
+	'html, body': {
+		bg: 'sky.700'
+	}
+});
 
 export default defineConfig({
 	// Whether to use css reset
@@ -16,5 +23,7 @@ export default defineConfig({
 	},
 
 	// The output directory for your css system
-	outdir: 'styled-system'
+	outdir: 'styled-system',
+
+	globalCss
 });

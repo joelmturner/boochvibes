@@ -1,19 +1,19 @@
-<script>
-	import { css } from 'styled-system/css';
+<script lang="ts">
+	import { grid } from 'styled-system/patterns';
+	import Card from '@components/Card.svelte';
+
 	export let data;
+	console.log('data', data);
+	console.log('data.kombucha', data.kombucha);
 </script>
 
 <div
-	class={css({
-		fontSize: '2xl',
-		fontWeight: 'bold'
+	class={grid({
+		columns: { base: 1, lg: 3 },
+		gap: '4'
 	})}
 >
-	Booch Town Baby! 🍺
-
-	<ul>
-		{#each data.kombuchas as kombucha}
-			<li>{kombucha.name}</li>
-		{/each}
-	</ul>
+	{#each data.kombucha as kombucha}
+		<Card {kombucha} />
+	{/each}
 </div>

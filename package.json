@@ -36,6 +36,8 @@
     },
     "type": "module",
     "dependencies": {
-        "@supabase/supabase-js": "^2.31.0"
+        "@supabase/auth-helpers-sveltekit": "^0.10.2",
+        "@supabase/supabase-js": "^2.31.0",
+        "svelte-cloudinary": "^1.0.3"
     }
 }
