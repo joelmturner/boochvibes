@@ -20,3 +20,12 @@ declare global {
 export {};
 
 export type Theme = 'system' | 'light' | 'dark';
+
+export type Review = {
+	id: string;
+	created_at: string; // date
+	kombucha_id: string;
+	user_id: string; // user
+	rating: number;
+	review: string;
+};

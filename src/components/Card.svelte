@@ -1,24 +1,16 @@
 <script lang="ts">
 	import { css } from 'styled-system/css';
-	import { flex } from 'styled-system/patterns';
+	import { card, flex } from 'styled-system/patterns';
 	import Image from '@components/Image.svelte';
 	import Rating from './Rating.svelte';
 	import { getRatingCounts } from '$lib';
 
 	export let kombucha: any;
-	const { avg: rating, ratingCount: count } = getRatingCounts(kombucha.reviews);
+	$: rating = getRatingCounts(kombucha.reviews).avg;
+	$: count = getRatingCounts(kombucha.reviews).ratingCount;
 </script>
 
-<div
-	class={flex({
-		rounded: 'xl',
-		direction: 'column',
-		overflow: 'hidden',
-		bg: 'white',
-		shadow: 'lg',
-		p: '2'
-	})}
->
+<div class={card({ size: 'md' })}>
 	<div
 		class={flex({
 			bg: 'white',
@@ -33,7 +25,6 @@
 	<div
 		class={flex({
 			direction: 'column',
-			p: 4,
 			color: 'gray.800',
 			gap: '2'
 		})}

@@ -11,7 +11,6 @@ export const actions: Actions = {
 		});
 
 		if (err) {
-			console.log('err', err);
 			if (err instanceof AuthApiError && err.status === 400) {
 				return fail(400, {
 					error: 'Invalid email or password'
@@ -22,6 +21,6 @@ export const actions: Actions = {
 			});
 		}
 
-		throw redirect(303, '/');
+		throw redirect(303, '/?registrationSuccess');
 	}
 };

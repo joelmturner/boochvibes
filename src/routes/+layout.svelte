@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import { invalidate } from '$app/navigation';
 	import { theme } from '$lib/stores';
 	import { onMount } from 'svelte';
@@ -14,7 +14,7 @@
 	onMount(() => {
 		const {
 			data: { subscription }
-		} = supabase.auth.onAuthStateChange((event, _session) => {
+		} = supabase.auth.onAuthStateChange((event: any, _session: any) => {
 			if (_session?.expires_at !== session?.expires_at) {
 				invalidate('supabase:auth');
 			}
@@ -54,6 +54,7 @@
 			</div>
 		{:else}
 			<div class={css({ fontSize: 'xl' })}><a href="/login">Login</a></div>
+			<div class={css({ fontSize: 'xl' })}><a href="/register">Register</a></div>
 		{/if}
 	</div>
 </div>

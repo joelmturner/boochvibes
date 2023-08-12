@@ -22,6 +22,7 @@
 </script>
 
 <div class={flex({ gap: '1', alignItems: 'center', color: 'orange.500' })}>
+	<input hidden={true} name="rating" value={rating} />
 	{#each stars as star, index}
 		<svg
 			xmlns="http://www.w3.org/2000/svg"

@@ -4,9 +4,7 @@ import { AuthApiError } from '@supabase/supabase-js';
 import { fail, type Actions, redirect } from '@sveltejs/kit';
 
 export async function load({ params, url, locals }) {
-	console.log('params', params);
-	console.log('url.searchParams', url.searchParams);
-	const { data, error } = await supabase
+	const { data: kombucha, error } = await supabase
 		.from('kombucha')
 		.select(
 			`
@@ -22,25 +20,40 @@ export async function load({ params, url, locals }) {
 		)
 		.eq('id', params.kombucha_id);
 
-	const { avg, ratingCount } = getRatingCounts(data?.[0]?.reviews ?? []);
+	const reviews = kombucha?.[0]?.reviews;
+
+	const users = reviews?.map((review) => !!review.user_id && review.user_id)?.filter(Boolean) ?? [];
+	const { data: userDetails, error: err2 } = await supabase
+		.from('user_details')
+		.select()
+		.in('user_id', users);
+
+	const enhancedReviews = reviews
+		?.map(({ user_id, ...rest }) => ({
+			...rest,
+			user: userDetails?.find((user) => user.user_id === user_id)
+		}))
+		?.sort((a, b) => b.user.user_id.localeCompare(a.user.user_id));
+
+	const { avg, ratingCount } = getRatingCounts(reviews ?? []);
 
 	const userId = (await locals.getSession())?.user.id;
-
-	const userHasReviewed = data?.[0]?.reviews?.some((review) => review.user_id === userId);
+	const userHasReviewed = reviews?.some((review) => review.user_id === userId);
 
 	return {
-		kombucha: data ?? [],
+		kombucha: kombucha ?? [],
 		rating: avg,
 		ratingCount,
 		userHasReviewed,
-		reviewedSuccess: url.searchParams.get('reviewedSuccessfully') === 'true'
+		reviewedSuccess: url.searchParams.get('reviewedSuccessfully') === 'true',
+		reviews: enhancedReviews ?? [],
+		isLoggedIn: !!userId
 	};
 }
 
 export const actions: Actions = {
 	addReview: async ({ request, url, locals }) => {
 		const body = Object.fromEntries(await request.formData());
-		console.log('locals', locals);
 
 		const userId = (await locals.getSession())?.user.id;
 		const { error: err } = await locals.supabase.from('reviews').insert({
@@ -51,7 +64,6 @@ export const actions: Actions = {
 		});
 
 		if (err) {
-			console.log('err', err);
 			if (err instanceof AuthApiError && err.status === 400) {
 				return fail(400, {
 					error: 'Not authorized to review'
