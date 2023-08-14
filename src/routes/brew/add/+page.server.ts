@@ -4,8 +4,6 @@ import { fail } from '@sveltejs/kit';
 
 export const load = (async ({ locals }) => {
 	const { data: brands, error: err } = await locals.supabase.from('brands').select();
-
-	console.log('brands', brands);
 	return {
 		brands
 	};
@@ -14,7 +12,6 @@ export const load = (async ({ locals }) => {
 export const actions = {
 	add: async ({ request, locals: { supabase, getSession } }) => {
 		const body = Object.fromEntries(await request.formData());
-		console.log('body', body);
 		const userId = (await getSession())?.user.id;
 
 		const { data: kombucha, error: kombuchaError } = await supabase
@@ -24,9 +21,6 @@ export const actions = {
 			})
 			.select();
 
-		console.log('kombucha', kombucha);
-		console.log('kombuchaError', kombuchaError);
-
 		const { error: err } = await supabase.from('attributes').insert({
 			kombucha_id: kombucha?.[0].id,
 			description: body.description,
@@ -35,8 +29,6 @@ export const actions = {
 			added_by_user: userId,
 			brand_id: body.brand ? JSON.parse(body.brand as any).value : null
 		});
-
-		console.log('err', err);
 
 		if (err) {
 			if (err instanceof AuthApiError && err.status === 400) {

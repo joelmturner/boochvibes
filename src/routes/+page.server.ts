@@ -33,7 +33,7 @@ export async function load({ url, locals }) {
 
 	const kombuchas: Kombucha[] =
 		data?.map((attributes) => {
-			const { avg, ratingCount } = getRatingCounts(attributes.reviews ?? []);
+			const { avg, ratingCount } = getRatingCounts(attributes.kombucha.reviews ?? []);
 			const { created_at, kombucha_id, brand_id, brands, description, ...restAttributes } =
 				attributes;
 
