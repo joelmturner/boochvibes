@@ -21,11 +21,53 @@ export {};
 
 export type Theme = 'system' | 'light' | 'dark';
 
+export type User = {
+	id: number;
+	created_at: string;
+	profile_url: string;
+	username: string;
+	user_id: string;
+};
+
 export type Review = {
-	id: string;
+	id: number;
 	created_at: string; // date
 	kombucha_id: string;
 	user_id: string; // user
 	rating: number;
 	review: string;
+	user: User;
+};
+
+export type Brand = {
+	id: number;
+	name: string;
+	address: string;
+	city: string;
+	state: string;
+	zip: number;
+};
+
+export type Rating = {
+	avg: number;
+	count: number;
+};
+
+export type Kombucha = {
+	id: number;
+	name: string;
+	brand: Brand;
+	rating: Rating;
+	image_url: string;
+	product_url: string;
+} & Partial<{
+	category: string;
+	color: string;
+	alcohol_level: number;
+	organic: boolean;
+	description: string;
+}>;
+
+export type KombuchaWithReviews = Kombucha & {
+	reviews: Review[];
 };

@@ -19,7 +19,7 @@
 		gap: '4'
 	})}
 >
-	{#each data.kombucha as kombucha}
+	{#each data.kombuchas as kombucha}
 		<Card {kombucha} />
 	{/each}
 </div>

@@ -3,11 +3,10 @@
 	import { card, flex } from 'styled-system/patterns';
 	import Image from '@components/Image.svelte';
 	import Rating from './Rating.svelte';
-	import { getRatingCounts } from '$lib';
+	import type { KombuchaWithReviews } from '../app';
 
-	export let kombucha: any;
-	$: rating = getRatingCounts(kombucha.reviews).avg;
-	$: count = getRatingCounts(kombucha.reviews).ratingCount;
+	export let kombucha: KombuchaWithReviews;
+	$: ({ avg: rating, count } = kombucha.rating);
 </script>
 
 <div class={card({ size: 'md' })}>
@@ -20,7 +19,7 @@
 			alignItems: 'center'
 		})}
 	>
-		<Image src={kombucha.attributes[0].image_url} alt={kombucha.name} />
+		<Image src={kombucha.image_url} alt={kombucha.name} />
 	</div>
 	<div
 		class={flex({
@@ -35,11 +34,11 @@
 					fontSize: 'md'
 				})}
 			>
-				{kombucha.attributes[0].brand}
+				<a href={`/brand/${kombucha.brand.id}`}>{kombucha.brand.name}</a>
 			</div>
 			<div
 				class={css({
-					fontSize: '2xl',
+					fontSize: 'xl',
 					fontWeight: 'bold',
 					lineHeight: 1,
 					mb: '1'
@@ -48,9 +47,11 @@
 				<a href={`/brew/${kombucha.id}`}>{kombucha.name}</a>
 			</div>
 			<Rating {rating} {count} />
-			<div class={css({ letterSpacing: 'wide', mt: '2' })}>
-				{kombucha.attributes[0].description}
-			</div>
+			{#if kombucha.description}
+				<div class={css({ letterSpacing: 'wide', mt: '2' })}>
+					{kombucha.description}
+				</div>
+			{/if}
 		</div>
 	</div>
 </div>

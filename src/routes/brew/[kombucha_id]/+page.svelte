@@ -6,7 +6,7 @@
 	import Reviews from '@components/Reviews.svelte';
 
 	export let data;
-	const kombucha = data.kombucha[0];
+	$: ({ kombucha } = data);
 </script>
 
 <div class={flex({ direction: 'column', gap: '6' })}>
@@ -16,5 +16,7 @@
 	{:else if !data.userHasReviewed && data.isLoggedIn}
 		<ReviewEdit kombuchaId={kombucha.id} />
 	{/if}
-	<Reviews reviews={data.reviews} />
+	{#if (kombucha?.reviews?.length ?? 0) > 0}
+		<Reviews reviews={kombucha.reviews} />
+	{/if}
 </div>

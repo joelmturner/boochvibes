@@ -2,6 +2,7 @@ import { getRatingCounts } from '$lib';
 import { supabase } from '$lib/supabaseClient';
 import { AuthApiError } from '@supabase/supabase-js';
 import { fail, type Actions, redirect } from '@sveltejs/kit';
+import type { KombuchaWithReviews } from '../../../app';
 
 export async function load({ params, url, locals }) {
 	const { data: kombucha, error } = await supabase
@@ -11,7 +12,10 @@ export async function load({ params, url, locals }) {
             id,
             name,
             attributes (
-                *
+                *,
+                brands (
+                    *
+                )
             ),
             reviews (
                 *
@@ -40,13 +44,25 @@ export async function load({ params, url, locals }) {
 	const userId = (await locals.getSession())?.user.id;
 	const userHasReviewed = reviews?.some((review) => review.user_id === userId);
 
+	const attributes = kombucha?.[0]?.attributes?.[0] ?? {};
+	const { created_at, kombucha_id, brand_id, brands, ...restAttributes } = attributes;
+
+	const resolvedKombucha: KombuchaWithReviews = {
+		id: kombucha?.[0]?.id,
+		name: kombucha?.[0]?.name,
+		...restAttributes,
+		brand: brands,
+		reviews: enhancedReviews,
+		rating: {
+			avg,
+			count: ratingCount
+		}
+	};
+
 	return {
-		kombucha: kombucha ?? [],
-		rating: avg,
-		ratingCount,
+		kombucha: resolvedKombucha,
 		userHasReviewed,
 		reviewedSuccess: url.searchParams.get('reviewedSuccessfully') === 'true',
-		reviews: enhancedReviews ?? [],
 		isLoggedIn: !!userId
 	};
 }

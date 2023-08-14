@@ -14,4 +14,6 @@
 	class={css({ borderRadius: 'md' })}
 	sizes="40vw"
 	objectFit="contain"
+	crop="thumb"
+	gravity="center"
 />

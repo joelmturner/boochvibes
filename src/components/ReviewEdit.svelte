@@ -3,7 +3,7 @@
 	import { flex, input } from 'styled-system/patterns';
 	import RatingEdit from './RatingEdit.svelte';
 
-	export let kombuchaId: string;
+	export let kombuchaId: number;
 </script>
 
 <form
