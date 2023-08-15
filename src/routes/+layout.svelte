@@ -1,11 +1,10 @@
 <script lang="ts">
 	import { invalidate } from '$app/navigation';
-	import { theme } from '$lib/stores';
 	import { onMount } from 'svelte';
 	import { css } from 'styled-system/css';
 	import { card, flex } from 'styled-system/patterns';
-	import '../app.css';
 	import { fade } from 'svelte/transition';
+	import '../app.css';
 
 	let navOpen = false;
 	export let data;

@@ -14,6 +14,8 @@ export const actions = {
 		const body = Object.fromEntries(await request.formData());
 		const userId = (await getSession())?.user.id;
 
+		console.log('body', body);
+
 		const { data: kombucha, error: kombuchaError } = await supabase
 			.from('kombucha')
 			.insert({
@@ -21,13 +23,33 @@ export const actions = {
 			})
 			.select();
 
+		if (kombuchaError) {
+			console.log('kombuchaError', kombuchaError);
+		}
+
+		const brand: { label: string; value: string } = JSON.parse(body.brand as string);
+		let brandId = brand.value;
+
+		// if it's a new brand, add it first
+		if (brand.value === brand.label) {
+			const { data: brands, error: brandError } = await supabase
+				.from('brands')
+				.insert({
+					name: brand.label
+				})
+				.select();
+			console.log('brandError', brandError);
+			brandId = brands?.[0].id;
+		}
+
 		const { error: err } = await supabase.from('attributes').insert({
 			kombucha_id: kombucha?.[0].id,
 			description: body.description,
 			image_url: body.image_url,
 			product_url: body.booch_url,
 			added_by_user: userId,
-			brand_id: body.brand ? JSON.parse(body.brand as any).value : null
+			ingredients: body.ingredients,
+			brand_id: brandId
 		});
 
 		if (err) {
@@ -37,7 +59,8 @@ export const actions = {
 					name: body.name,
 					description: body.description,
 					image_url: body.image_url,
-					product_url: body.booch_url
+					product_url: body.booch_url,
+					ingredients: body.ingredients
 				});
 			}
 			return fail(500, {
@@ -45,7 +68,8 @@ export const actions = {
 				name: body.name,
 				description: body.description,
 				image_url: body.image_url,
-				product_url: body.booch_url
+				product_url: body.booch_url,
+				ingredients: body.ingredients
 			});
 		}
 

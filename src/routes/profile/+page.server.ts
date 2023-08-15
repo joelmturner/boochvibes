@@ -18,11 +18,17 @@ export const actions = {
 		const body = Object.fromEntries(await request.formData());
 		const userId = (await getSession())?.user.id;
 
-		const { error: err } = await supabase.from('user_details').insert({
-			username: body.username,
-			profile_url: body.profile_url,
-			user_id: userId
-		});
+		const record: Partial<Record<'user_id' | 'username' | 'profile_url', string>> = {};
+
+		if (body.username) {
+			record.username = body.username as string;
+		}
+
+		if (body.profile_url) {
+			record.profile_url = body.profile_url as string;
+		}
+
+		const { error: err } = await supabase.from('user_details').update(record).eq('user_id', userId);
 
 		if (err) {
 			if (err instanceof AuthApiError && err.status === 400) {

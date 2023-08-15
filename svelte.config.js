@@ -14,7 +14,7 @@ const config = {
 		adapter: adapter(),
 		alias: {
 			'styled-system': './styled-system/*',
-			'@components': './src/components/*'
+			'@components': './src/lib/components/*'
 		}
 	}
 };

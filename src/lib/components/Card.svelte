@@ -3,9 +3,9 @@
 	import { card, flex } from 'styled-system/patterns';
 	import Image from '@components/Image.svelte';
 	import Rating from './Rating.svelte';
-	import type { KombuchaWithReviews } from '../app';
+	import type { Kombucha } from '../../app';
 
-	export let kombucha: KombuchaWithReviews;
+	export let kombucha: Kombucha;
 	$: ({ avg: rating, count } = kombucha.rating);
 </script>
 
@@ -19,7 +19,7 @@
 			alignItems: 'center'
 		})}
 	>
-		<Image src={kombucha.image_url} alt={kombucha.name} />
+		<a href={`/brew/${kombucha.id}`}><Image src={kombucha.image_url} alt={kombucha.name} /></a>
 	</div>
 	<div
 		class={flex({
