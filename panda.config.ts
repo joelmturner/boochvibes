@@ -3,8 +3,8 @@ import { defineConfig } from '@pandacss/dev';
 
 const globalCss = defineGlobalStyles({
 	'html, body': {
-		bg: 'sky.700'
-	}
+		bg: 'sky.700',
+	},
 });
 
 export default defineConfig({
@@ -19,7 +19,7 @@ export default defineConfig({
 
 	// Useful for theme customization
 	theme: {
-		extend: {}
+		extend: {},
 	},
 
 	// The output directory for your css system
@@ -33,14 +33,14 @@ export default defineConfig({
 				description: 'A basic card',
 				properties: {
 					// sizing to adjust padding and gap
-					size: { type: 'enum', value: ['sm', 'md', 'lg'] }
+					size: { type: 'enum', value: ['sm', 'md', 'lg'] },
 				},
 				transform(props) {
 					const { size = 'md', ...rest } = props;
 					const SIZE_VS_PADDING = {
 						sm: '2',
 						md: '4',
-						lg: '6'
+						lg: '6',
 					};
 					return {
 						display: 'flex',
@@ -51,24 +51,25 @@ export default defineConfig({
 						overflow: 'hidden',
 						bg: 'white',
 						shadow: 'lg',
-						...rest
+						...rest,
 					};
-				}
+				},
 			},
 			input: {
 				description: 'input and textarea styles',
 				properties: {
 					// sizing to adjust padding and gap
-					multiline: { type: 'boolean' }
+					multiline: { type: 'boolean' },
+					error: { type: 'boolean' },
 				},
 				transform(props) {
-					const { size, multiline = false, ...rest } = props;
+					const { size, multiline = false, error = false, ...rest } = props;
 
 					return {
 						rounded: 'xl',
 						borderWidth: '1px',
 						borderStyle: 'solid',
-						borderColor: 'gray.400',
+						borderColor: error ? 'red.500' : 'gray.400',
 						minHeight: multiline ? '36' : '12',
 						py: '3',
 						px: '4',
@@ -76,10 +77,10 @@ export default defineConfig({
 						resize: 'vertical',
 						flexShrink: '1',
 						color: 'gray.800',
-						...rest
+						...rest,
 					};
-				}
-			}
-		}
-	}
+				},
+			},
+		},
+	},
 });

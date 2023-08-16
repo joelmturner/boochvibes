@@ -5,7 +5,7 @@ import { fail } from '@sveltejs/kit';
 export const load = (async ({ locals }) => {
 	const { data: brands, error: err } = await locals.supabase.from('brands').select();
 	return {
-		brands
+		brands,
 	};
 }) satisfies PageServerLoad;
 
@@ -14,18 +14,16 @@ export const actions = {
 		const body = Object.fromEntries(await request.formData());
 		const userId = (await getSession())?.user.id;
 
-		console.log('body', body);
-
 		const { data: kombucha, error: kombuchaError } = await supabase
 			.from('kombucha')
 			.insert({
-				name: body.name
+				name: body.name,
 			})
 			.select();
 
-		if (kombuchaError) {
-			console.log('kombuchaError', kombuchaError);
-		}
+		// if (kombuchaError) {
+		// 	console.log('kombuchaError', kombuchaError);
+		// }
 
 		const brand: { label: string; value: string } = JSON.parse(body.brand as string);
 		let brandId = brand.value;
@@ -35,10 +33,10 @@ export const actions = {
 			const { data: brands, error: brandError } = await supabase
 				.from('brands')
 				.insert({
-					name: brand.label
+					name: brand.label,
 				})
 				.select();
-			console.log('brandError', brandError);
+
 			brandId = brands?.[0].id;
 		}
 
@@ -49,7 +47,7 @@ export const actions = {
 			product_url: body.booch_url,
 			added_by_user: userId,
 			ingredients: body.ingredients,
-			brand_id: brandId
+			brand_id: brandId,
 		});
 
 		if (err) {
@@ -60,7 +58,7 @@ export const actions = {
 					description: body.description,
 					image_url: body.image_url,
 					product_url: body.booch_url,
-					ingredients: body.ingredients
+					ingredients: body.ingredients,
 				});
 			}
 			return fail(500, {
@@ -69,10 +67,10 @@ export const actions = {
 				description: body.description,
 				image_url: body.image_url,
 				product_url: body.booch_url,
-				ingredients: body.ingredients
+				ingredients: body.ingredients,
 			});
 		}
 
 		return { happy: true };
-	}
+	},
 };

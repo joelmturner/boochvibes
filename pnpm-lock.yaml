@@ -17,6 +17,9 @@ dependencies:
   svelte-select:
     specifier: ^5.6.1
     version: 5.6.1
+  zod:
+    specifier: ^3.22.1
+    version: 3.22.1
 
 devDependencies:
   '@pandacss/dev':
@@ -58,6 +61,9 @@ devDependencies:
   svelte-check:
     specifier: ^3.4.3
     version: 3.4.6(@babel/core@7.22.9)(postcss@8.4.27)(svelte@4.1.2)
+  sveltekit-superforms:
+    specifier: ^1.5.2
+    version: 1.5.2(@sveltejs/kit@1.22.4)(svelte@4.1.2)(zod@3.22.1)
   tslib:
     specifier: ^2.4.1
     version: 2.6.1
@@ -2585,7 +2591,7 @@ packages:
       vitefu: 0.2.4(vite@4.4.8)
       which-pm: 2.0.0
       yargs-parser: 21.1.1
-      zod: 3.21.4
+      zod: 3.22.1
     transitivePeerDependencies:
       - '@types/node'
       - less
@@ -2662,7 +2668,7 @@ packages:
       vitefu: 0.2.4(vite@4.4.8)
       which-pm: 2.0.0
       yargs-parser: 21.1.1
-      zod: 3.21.4
+      zod: 3.22.1
     transitivePeerDependencies:
       - '@types/node'
       - less
@@ -5869,6 +5875,18 @@ packages:
       magic-string: 0.30.2
       periscopic: 3.1.0
 
+  /sveltekit-superforms@1.5.2(@sveltejs/kit@1.22.4)(svelte@4.1.2)(zod@3.22.1):
+    resolution: {integrity: sha512-nwa1SDN5LXM+5NQeBgllOuw2uoSF0IJARpUZFdQzx5B6O+Gd/YhLRV0yX/RSjYNDoflH7+ompzgqVCIEfbpvew==}
+    peerDependencies:
+      '@sveltejs/kit': 1.x
+      svelte: 3.x || 4.x
+      zod: 3.x
+    dependencies:
+      '@sveltejs/kit': 1.22.4(svelte@4.1.2)(vite@4.4.8)
+      svelte: 4.1.2
+      zod: 3.22.1
+    dev: true
+
   /synckit@0.8.5:
     resolution: {integrity: sha512-L1dapNV6vu2s/4Sputv8xGsCdAVlb5nRDMFU/E27D44l5U6cw1g0dGd45uLc+OXjNMmF4ntiMdCimzcjFKQI8Q==}
     engines: {node: ^14.18.0 || >=16.0.0}
@@ -6552,9 +6570,8 @@ packages:
     engines: {node: '>=12.20'}
     dev: true
 
-  /zod@3.21.4:
-    resolution: {integrity: sha512-m46AKbrzKVzOzs/DZgVnG5H55N1sv1M8qZU3A8RIKbs3mrACDNeIOeilDymVb2HdmP8uwshOCF4uJ8uM9rCqJw==}
-    dev: true
+  /zod@3.22.1:
+    resolution: {integrity: sha512-+qUhAMl414+Elh+fRNtpU+byrwjDFOS1N7NioLY+tSlcADTx4TkCUua/hxJvxwDXcV4397/nZ420jy4n4+3WUg==}
 
   /zwitch@2.0.4:
     resolution: {integrity: sha512-bXE4cR/kVZhKZX/RjPEflHaKVhUVl85noU3v6b8apfQEc1x4A+zBxjZ4lN8LqGd6WZ3dl98pY4o717VFmoPp+A==}
