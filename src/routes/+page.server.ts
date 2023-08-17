@@ -4,19 +4,14 @@ import type { Kombucha } from '../app';
 
 export async function load({ url, locals }) {
 	const { data, error } = await supabase
-		.from('attributes')
+		.from('kombuchas')
 		.select(
 			`
             *,
-            kombucha (
-                id,
-                name,
-                reviews (
-                    *
-                )
+            reviews (
+                *
             ),
             brands (*)
-            
         `
 		)
 		.eq('moderation', 'APPROVED');
@@ -32,26 +27,26 @@ export async function load({ url, locals }) {
 	const registered = url.searchParams.has('registrationSuccess');
 
 	const kombuchas: Kombucha[] =
-		data?.map((attributes) => {
-			const { avg, ratingCount } = getRatingCounts(attributes.kombucha.reviews ?? []);
+		data?.map((kombucha) => {
+			const { avg, ratingCount } = getRatingCounts(kombucha.reviews ?? []);
 			const { created_at, kombucha_id, brand_id, brands, description, ...restAttributes } =
-				attributes;
+				kombucha;
 
 			return {
-				id: attributes.kombucha.id,
-				name: attributes.kombucha.name,
+				id: kombucha.id,
+				name: kombucha.name,
 				...restAttributes,
 				brand: brands,
 				rating: {
 					avg,
-					count: ratingCount
-				}
+					count: ratingCount,
+				},
 			};
 		}) ?? [];
 
 	return {
 		kombuchas,
 		justRegistered: registered,
-		username
+		username,
 	};
 }

@@ -5,17 +5,13 @@ import { fail, type Actions, redirect } from '@sveltejs/kit';
 import type { KombuchaWithReviews } from '../../../app';
 
 export async function load({ params, url, locals }) {
-	const { data: kombucha, error } = await supabase
-		.from('kombucha')
+	const { data: kombuchas, error } = await supabase
+		.from('kombuchas')
 		.select(
 			`
-            id,
-            name,
-            attributes (
-                *,
-                brands (
-                    *
-                )
+            *,
+            brands (
+                *
             ),
             reviews (
                 *
@@ -24,7 +20,7 @@ export async function load({ params, url, locals }) {
 		)
 		.eq('id', params.kombucha_id);
 
-	const reviews = kombucha?.[0]?.reviews;
+	const reviews = kombuchas?.[0]?.reviews;
 
 	const users = reviews?.map((review) => !!review.user_id && review.user_id)?.filter(Boolean) ?? [];
 	const { data: userDetails, error: err2 } = await supabase
@@ -35,35 +31,33 @@ export async function load({ params, url, locals }) {
 	const enhancedReviews = reviews
 		?.map(({ user_id, ...rest }) => ({
 			...rest,
-			user: userDetails?.find((user) => user.user_id === user_id)
+			user: userDetails?.find((user) => user.user_id === user_id),
 		}))
-		?.sort((a, b) => b.user.user_id.localeCompare(a.user.user_id));
+		?.sort((reviewA, reviewB) => reviewB.user!.user_id.localeCompare(reviewA.user!.user_id));
 
 	const { avg, ratingCount } = getRatingCounts(reviews ?? []);
 
 	const userId = (await locals.getSession())?.user.id;
 	const userHasReviewed = reviews?.some((review) => review.user_id === userId);
 
-	const attributes = kombucha?.[0]?.attributes?.[0] ?? {};
-	const { created_at, kombucha_id, brand_id, brands, ...restAttributes } = attributes;
+	const attributes = kombuchas?.[0] ?? ({} as any);
+	const { created_at, brand_id, brands, ...restAttributes } = attributes;
 
 	const resolvedKombucha: KombuchaWithReviews = {
-		id: kombucha?.[0]?.id,
-		name: kombucha?.[0]?.name,
 		...restAttributes,
 		brand: brands,
 		reviews: enhancedReviews,
 		rating: {
 			avg,
-			count: ratingCount
-		}
+			count: ratingCount,
+		},
 	};
 
 	return {
 		kombucha: resolvedKombucha,
 		userHasReviewed,
 		reviewedSuccess: url.searchParams.get('reviewedSuccessfully') === 'true',
-		isLoggedIn: !!userId
+		isLoggedIn: !!userId,
 	};
 }
 
@@ -76,20 +70,20 @@ export const actions: Actions = {
 			kombucha_id: body.kombuchaId,
 			review: body.review,
 			rating: body.rating,
-			user_id: userId
+			user_id: userId,
 		});
 
 		if (err) {
 			if (err instanceof AuthApiError && err.status === 400) {
 				return fail(400, {
-					error: 'Not authorized to review'
+					error: 'Not authorized to review',
 				});
 			}
 			return fail(500, {
-				error: 'Server error. Please try again later'
+				error: 'Server error. Please try again later',
 			});
 		}
 
 		throw redirect(303, `${url.pathname}?reviewedSuccessfully=true`);
-	}
+	},
 };

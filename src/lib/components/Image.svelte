@@ -1,9 +1,10 @@
 <script lang="ts">
-	import { css } from 'styled-system/css';
+	import { css, cx } from 'styled-system/css';
 	import { CldImage } from 'svelte-cloudinary';
 
 	export let src: string;
 	export let alt: string;
+	export let className: string;
 </script>
 
 <CldImage
@@ -11,7 +12,7 @@
 	height="400"
 	{src}
 	{alt}
-	class={css({ borderRadius: 'md' })}
+	class={cx(css({ borderRadius: 'md' }), className)}
 	sizes="40vw"
 	objectFit="contain"
 	crop="thumb"

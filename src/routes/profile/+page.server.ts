@@ -1,32 +1,47 @@
 import { AuthApiError } from '@supabase/supabase-js';
-import { fail, redirect } from '@sveltejs/kit';
+import { fail } from '@sveltejs/kit';
+import { superValidate } from 'sveltekit-superforms/server';
+import { profileSchema } from './zSchema';
 
-export async function load({ locals }) {
-	const userId = (await locals.getSession())?.user.id;
-	const { data: user, error } = await locals.supabase
+export async function load(event) {
+	const userId = (await event.locals.getSession())?.user.id;
+	const { data: user, error } = await event.locals.supabase
 		.from('user_details')
 		.select('*')
 		.eq('user_id', userId);
 
+	const form = await superValidate(event, profileSchema);
+	form.data = user[0];
+
 	return {
-		user: user[0]
+		form,
+		success: false,
 	};
 }
 
 export const actions = {
-	update: async ({ request, locals: { supabase, getSession } }) => {
-		const body = Object.fromEntries(await request.formData());
+	default: async (event) => {
+		const form = await superValidate(event, profileSchema);
+
+		if (!form.valid) {
+			return fail(400, {
+				form,
+			});
+		}
+
+		const {
+			locals: { supabase, getSession },
+		} = event;
+
 		const userId = (await getSession())?.user.id;
 
 		const record: Partial<Record<'user_id' | 'username' | 'profile_url', string>> = {};
 
-		if (body.username) {
-			record.username = body.username as string;
-		}
-
-		if (body.profile_url) {
-			record.profile_url = body.profile_url as string;
-		}
+		Object.keys(form.data).forEach((key) => {
+			if ((form.data as any)[key]) {
+				(record as any)[key] = (form.data as any)[key] as string;
+			}
+		});
 
 		const { error: err } = await supabase.from('user_details').update(record).eq('user_id', userId);
 
@@ -34,17 +49,15 @@ export const actions = {
 			if (err instanceof AuthApiError && err.status === 400) {
 				return fail(400, {
 					error: 'Invalid credentials',
-					username: body.username,
-					profile_url: body.profile_url
+					form,
 				});
 			}
 			return fail(500, {
 				message: 'Server error. Try again later.',
-				username: body.username,
-				profile_url: body.profile_url
+				form,
 			});
 		}
 
-		return { happy: true };
-	}
+		return { form, success: true };
+	},
 };

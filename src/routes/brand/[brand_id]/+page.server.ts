@@ -1,48 +1,44 @@
 import { getRatingCounts } from '$lib';
 import type { Brand, Kombucha } from '../../../app';
 
-export async function load({ params, url, locals }) {
+export async function load({ params, locals }) {
 	const { data: brands, error: err } = await locals.supabase
 		.from('brands')
 		.select(
 			`
             *,
-            attributes (
+            kombuchas (
                 *,
-                kombucha (
-                    id,
-                    name,
-                    reviews (*)
-                )
+                reviews (*)
             )
         `
 		)
 		.eq('id', params.brand_id);
 
-	const { attributes: bAttributes, ...restBrand } = brands[0];
+	const { kombucha: bKombucha, ...restBrand } = brands[0];
 	const brand: Brand = { ...restBrand };
-
-	const kombuchas: Kombucha[] = brands?.[0]?.attributes
-		.filter((attribute: any) => attribute.moderation === 'APPROVED')
-		.map((attributes: any) => {
-			const { created_at, kombucha_id, brand_id, kombucha, ...restAttributes } = attributes;
-
-			const { avg, ratingCount } = getRatingCounts(attributes.reviews ?? []);
+	console.log('brands?.[0]?.kombuchas', brands?.[0]?.kombuchas);
+	const kombuchas: Kombucha[] = brands?.[0]?.kombuchas
+		.filter((kombucha: any) => kombucha.moderation === 'APPROVED')
+		.map(({ created_at, brand_id, ...restAttributes }: any) => {
+			// const { created_at, kombucha_id, brand_id, ...restAttributes } = attributes;
+			console.log('restAttributes', restAttributes);
+			const { avg, ratingCount } = getRatingCounts(restAttributes.reviews ?? []);
 
 			return {
-				id: kombucha.id,
-				name: kombucha.name,
 				...restAttributes,
 				brand: { ...restBrand },
 				rating: {
 					avg,
-					count: ratingCount
-				}
+					count: ratingCount,
+				},
 			};
 		});
 
+	console.log('kombuchas', kombuchas);
+
 	return {
 		brand,
-		kombuchas
+		kombuchas,
 	};
 }
