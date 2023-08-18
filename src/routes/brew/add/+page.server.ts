@@ -1,76 +1,70 @@
 import { AuthApiError } from '@supabase/supabase-js';
 import type { PageServerLoad } from './$types';
 import { fail } from '@sveltejs/kit';
+import { addBoochSchema } from './zSchema';
+import { message, superValidate } from 'sveltekit-superforms/server';
 
-export const load = (async ({ locals }) => {
-	const { data: brands, error: err } = await locals.supabase.from('brands').select();
+export const load = (async (event) => {
+	const { data: brands, error: err } = await event.locals.supabase
+		.from('brands')
+		.select()
+		.order('name', { ascending: true });
+	const form = await superValidate(event, addBoochSchema);
 	return {
 		brands,
+		form,
 	};
 }) satisfies PageServerLoad;
 
 export const actions = {
-	add: async ({ request, locals: { supabase, getSession } }) => {
-		const body = Object.fromEntries(await request.formData());
+	default: async (event) => {
+		const form = await superValidate(event, addBoochSchema);
+		const {
+			locals: { supabase, getSession },
+		} = event;
+
 		const userId = (await getSession())?.user.id;
-
-		const { data: kombucha, error: kombuchaError } = await supabase
-			.from('kombucha')
-			.insert({
-				name: body.name,
-			})
-			.select();
-
-		// if (kombuchaError) {
-		// 	console.log('kombuchaError', kombuchaError);
-		// }
-
-		const brand: { label: string; value: string } = JSON.parse(body.brand as string);
-		let brandId = brand.value;
+		let brandId = form.data.brand?.value;
 
 		// if it's a new brand, add it first
-		if (brand.value === brand.label) {
+		if (typeof brandId === 'string') {
 			const { data: brands, error: brandError } = await supabase
 				.from('brands')
 				.insert({
-					name: brand.label,
+					name: brandId,
 				})
 				.select();
 
 			brandId = brands?.[0].id;
 		}
 
-		const { error: err } = await supabase.from('attributes').insert({
-			kombucha_id: kombucha?.[0].id,
-			description: body.description,
-			image_url: body.image_url,
-			product_url: body.booch_url,
+		const { error: err } = await supabase.from('kombuchas').insert({
+			name: form.data.name,
+			description: form.data.description,
+			image_url: form.data.image_url,
+			product_url: form.data.product_url,
 			added_by_user: userId,
-			ingredients: body.ingredients,
+			ingredients: form.data.ingredients,
 			brand_id: brandId,
+			organic: form.data.organic,
 		});
 
 		if (err) {
 			if (err instanceof AuthApiError && err.status === 400) {
 				return fail(400, {
-					error: 'Invalid credentials',
-					name: body.name,
-					description: body.description,
-					image_url: body.image_url,
-					product_url: body.booch_url,
-					ingredients: body.ingredients,
+					error: 'Invalid email or password',
+					form,
 				});
 			}
 			return fail(500, {
-				message: 'Server error. Try again later.',
-				name: body.name,
-				description: body.description,
-				image_url: body.image_url,
-				product_url: body.booch_url,
-				ingredients: body.ingredients,
+				error: 'Server error. Please try again later',
+				form,
 			});
 		}
 
-		return { happy: true };
+		return message(
+			form,
+			'Thank you for submitting this booch. We will review it and publish it soon.'
+		);
 	},
 };

@@ -2,6 +2,7 @@
 	import { css } from 'styled-system/css';
 	import { flex } from 'styled-system/patterns';
 	import Rating from './Rating.svelte';
+	import Image from './Image.svelte';
 
 	export let review: any;
 
@@ -12,10 +13,12 @@
 </script>
 
 <div class={flex({ gap: '3', alignItems: 'flex-start' })}>
-	<img
+	<Image
 		src={review.user.profile_url}
 		alt={`profile pic for ${review.user.username}`}
-		class={css({ rounded: 'full', w: '12', h: '12' })}
+		className={css({ rounded: 'full', w: '12', h: '12' })}
+		width={40}
+		height={40}
 	/>
 	<div class={flex({ direction: 'column', gap: '3' })}>
 		<div
@@ -26,8 +29,8 @@
 				lg: {
 					gap: '3',
 					alignItems: 'center',
-					flexDirection: 'row'
-				}
+					flexDirection: 'row',
+				},
 			})}
 		>
 			<h2 class={css({ fontSize: '2xl', fontWeight: 'bold' })}>{review.user.username}</h2>
@@ -49,8 +52,8 @@
 					width: '100%',
 					height: '12',
 					background: 'linear-gradient(transparent, white)',
-					display: hideReview ? 'block' : 'none'
-				}
+					display: hideReview ? 'block' : 'none',
+				},
 			})}
 		>
 			{review.review}

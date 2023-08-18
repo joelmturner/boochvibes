@@ -4,12 +4,14 @@
 
 	export let src: string;
 	export let alt: string;
-	export let className: string;
+	export let className: string | undefined = undefined;
+	export let width: number = 400;
+	export let height: number = 400;
 </script>
 
 <CldImage
-	width="400"
-	height="400"
+	{width}
+	{height}
 	{src}
 	{alt}
 	class={cx(css({ borderRadius: 'md' }), className)}

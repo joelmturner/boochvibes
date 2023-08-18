@@ -33,7 +33,7 @@ export async function load({ params, url, locals }) {
 			...rest,
 			user: userDetails?.find((user) => user.user_id === user_id),
 		}))
-		?.sort((reviewA, reviewB) => reviewB.user!.user_id.localeCompare(reviewA.user!.user_id));
+		?.sort((reviewA, reviewB) => reviewB.created_at!.localeCompare(reviewA.created_at!));
 
 	const { avg, ratingCount } = getRatingCounts(reviews ?? []);
 

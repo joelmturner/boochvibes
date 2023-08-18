@@ -1,19 +1,26 @@
 <script lang="ts">
 	import Select from 'svelte-select';
 	import { card, flex, grid, gridItem, input } from 'styled-system/patterns';
-	import type { PageData } from './$types';
 	import { css } from 'styled-system/css';
 	import ImageUploadWidget from '@components/ImageUploadWidget.svelte';
 	import Image from '@components/Image.svelte';
+	import { superForm } from 'sveltekit-superforms/client';
+	import { addBoochSchema } from './zSchema';
 
 	let filterText = '';
 	let created: any[] = [];
-	export let data: PageData;
+	export let data;
+
+	const { form, errors, enhance, message } = superForm(data.form, {
+		validators: addBoochSchema,
+		dataType: 'json',
+	});
 
 	$: ({ brands } = data);
 	$: items = brands.map((brand: any) => ({ label: brand.name, value: brand.id }));
 
 	function handleChange(e: any) {
+		$form.brand = e.detail;
 		if (e.detail.created) {
 			created = [...created, e.detail];
 		}
@@ -26,20 +33,26 @@
 		}
 	}
 
-	export let image_url = '';
 	function handleSetUrl(url: string) {
-		image_url = url;
+		$form.image_url = url;
 	}
 </script>
+
+{#if $message}
+	<p class={card({ color: 'green.500', mb: '3' })}>{$message}</p>
+{/if}
 
 <div class={flex({ direction: 'column', gap: '4' })}>
 	<div class={card()}>
 		<h1 class={css({ fontSize: '3xl', fontWeight: 'bold' })}>Add a new booch</h1>
-		<form class={grid({ columns: 2, gap: '3' })} method="POST" action="?/add">
+		<form class={grid({ columns: 2, gap: '3' })} method="POST" use:enhance>
 			<div class={flex({ direction: 'column', gap: '3' })}>
 				<div class={flex({ direction: 'column', gap: '1' })}>
 					<label for="name">Name</label>
-					<input class={input()} type="text" id="name" name="name" placeholder="Booch Name" />
+					<input class={input()} type="text" id="name" name="name" bind:value={$form.name} />
+					{#if $errors?.name}
+						<small class={css({ color: 'red.500' })}>{$errors.name.join(', ')}</small>
+					{/if}
 				</div>
 
 				<div class={flex({ direction: 'column', gap: '1' })}>
@@ -57,6 +70,11 @@
 							{item.label}
 						</div>
 					</Select>
+					{#if $errors.brand?.label || $errors.brand?.value}
+						<small class={css({ color: 'red.500' })}
+							>{$errors.brand.label || $errors.brand.value}</small
+						>
+					{/if}
 				</div>
 
 				<div class={flex({ direction: 'column', gap: '1' })}>
@@ -66,19 +84,25 @@
 						type="text"
 						id="description"
 						name="description"
-						placeholder="Booch Description"
+						bind:value={$form.description}
 					/>
+					{#if $errors?.description}
+						<small class={css({ color: 'red.500' })}>{$errors.description.join(', ')}</small>
+					{/if}
 				</div>
 
 				<div class={flex({ direction: 'column', gap: '1' })}>
-					<label for="booch_url">Booch URL</label>
+					<label for="product_url">Booch URL</label>
 					<input
 						class={input()}
 						type="text"
-						id="booch_url"
-						name="booch_url"
-						placeholder="Booch URL"
+						id="product_url"
+						name="product_url"
+						bind:value={$form.product_url}
 					/>
+					{#if $errors?.product_url}
+						<small class={css({ color: 'red.500' })}>{$errors.product_url.join(', ')}</small>
+					{/if}
 				</div>
 
 				<div class={flex({ direction: 'column', gap: '1' })}>
@@ -88,25 +112,34 @@
 						type="text"
 						id="ingredients"
 						name="ingredients"
-						placeholder="ingredients"
+						bind:value={$form.ingredients}
 					/>
+					{#if $errors?.ingredients}
+						<small class={css({ color: 'red.500' })}>{$errors.ingredients.join(', ')}</small>
+					{/if}
 				</div>
 
-				<label class={flex({ alignItems: 'center', gap: '3' })} for="organic"
-					>It is organic? <input
-						class={input()}
-						type="checkbox"
-						id="organic"
-						name="organic"
-					/></label
-				>
+				<!-- <div class={flex({ direction: 'column', gap: '1' })}>
+					<label class={flex({ alignItems: 'center', gap: '3' })} for="organic"
+						>It is organic? <input
+							class={input()}
+							type="checkbox"
+							id="organic"
+							name="organic"
+							bind:checked={$form.organic}
+						/></label
+					>
+					{#if $errors?.organic}
+						<small class={css({ color: 'red.500' })}>{$errors.organic.join(', ')}</small>
+					{/if}
+				</div> -->
 			</div>
 
 			<div
 				class={flex({
 					direction: 'column',
 					gap: '1',
-					alignItems: 'center'
+					alignItems: 'center',
 				})}
 			>
 				<ImageUploadWidget setUrl={handleSetUrl} preset="boochtown_product">
@@ -121,11 +154,11 @@
 							alignItems: 'center',
 							color: 'gray.400',
 							border: '1px dashed',
-							borderColor: 'gray.400'
+							borderColor: 'gray.400',
 						})}
 					>
-						{#if image_url}
-							<Image src={image_url} alt="Product Image" />
+						{#if $form?.image_url}
+							<Image src={$form?.image_url} alt="Product Image" />
 						{:else}
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
@@ -144,11 +177,13 @@
 						{/if}
 					</div>
 				</ImageUploadWidget>
-				<input type="hidden" name="image_url" id="image_url" value={image_url} />
+				<input type="hidden" name="image_url" id="image_url" value={$form?.image_url} />
+				{#if $errors?.image_url}
+					<small class={css({ color: 'red.500' })}>{$errors.image_url.join(', ')}</small>
+				{/if}
 			</div>
 
 			<button
-				type="submit"
 				class={gridItem({
 					colSpan: 2,
 					border: '1px solid',
@@ -157,7 +192,7 @@
 					justifySelf: 'center',
 					py: '2',
 					px: '3',
-					rounded: 'sm'
+					rounded: 'sm',
 				})}>Submit</button
 			>
 		</form>

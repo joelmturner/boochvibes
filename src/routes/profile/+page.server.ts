@@ -1,6 +1,6 @@
 import { AuthApiError } from '@supabase/supabase-js';
 import { fail } from '@sveltejs/kit';
-import { superValidate } from 'sveltekit-superforms/server';
+import { message, superValidate } from 'sveltekit-superforms/server';
 import { profileSchema } from './zSchema';
 
 export async function load(event) {
@@ -11,11 +11,13 @@ export async function load(event) {
 		.eq('user_id', userId);
 
 	const form = await superValidate(event, profileSchema);
-	form.data = user[0];
+	if (user?.[0]) {
+		form.data = user[0];
+	}
 
 	return {
 		form,
-		success: false,
+		userLoggedIn: userId,
 	};
 }
 
@@ -58,6 +60,6 @@ export const actions = {
 			});
 		}
 
-		return { form, success: true };
+		return message(form, 'Profile updated successfully');
 	},
 };
