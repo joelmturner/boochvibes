@@ -11,6 +11,7 @@ export async function load(event) {
 		.eq('user_id', userId);
 
 	const form = await superValidate(event, profileSchema);
+
 	if (user?.[0]) {
 		form.data = user[0];
 	}

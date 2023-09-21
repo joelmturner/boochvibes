@@ -3,7 +3,7 @@ import { defineConfig } from '@pandacss/dev';
 
 const globalCss = defineGlobalStyles({
 	'html, body': {
-		bg: 'sky.700',
+		bg: 'gray.200',
 	},
 });
 
@@ -47,7 +47,7 @@ export default defineConfig({
 						flexDirection: 'column',
 						gap: SIZE_VS_PADDING[size],
 						padding: SIZE_VS_PADDING[size],
-						rounded: 'xl',
+						roundedBottom: 'xl',
 						overflow: 'hidden',
 						bg: 'white',
 						shadow: 'lg',
@@ -77,6 +77,49 @@ export default defineConfig({
 						resize: 'vertical',
 						flexShrink: '1',
 						color: 'gray.800',
+						...rest,
+					};
+				},
+			},
+			btn: {
+				description: 'CTA button',
+				properties: {
+					// sizing to adjust padding and gap
+					variant: { type: 'enum', value: ['primary', 'secondary'] },
+					size: { type: 'enum', value: ['sm', 'md', 'lg'] },
+				},
+				transform(props) {
+					const { size = 'md', variant = 'primary', ...rest } = props;
+
+					const VARIANT_VS_STYLES = {
+						primary: {
+							bg: 'primary',
+							borderColor: 'gray.400',
+							color: 'gray.800',
+						},
+						secondary: {
+							bg: 'transparent',
+							borderColor: 'gray.400',
+							color: 'gray.800',
+						},
+					};
+
+					const SIZE_VS_STYLES = {
+						sm: { w: '2xs' },
+						md: { w: '1/2' },
+						lg: { w: 'full' },
+					};
+
+					return {
+						rounded: 'xl',
+						borderWidth: '1px',
+						borderStyle: 'solid',
+						minHeight: '12',
+						py: '3',
+						px: '4',
+						flexShrink: '1',
+						...SIZE_VS_STYLES[size],
+						...VARIANT_VS_STYLES[variant],
 						...rest,
 					};
 				},

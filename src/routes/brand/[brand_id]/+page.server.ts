@@ -20,7 +20,7 @@ export async function load({ params, locals }) {
 
 	const kombuchas: Kombucha[] = brands?.[0]?.kombuchas
 		.filter((kombucha: any) => kombucha.moderation === 'APPROVED')
-		.map(({ created_at, brand_id, ...restAttributes }: any) => {
+		.map(({ created_at, brand_id, description, ...restAttributes }: any) => {
 			const { avg, ratingCount } = getRatingCounts(restAttributes.reviews ?? []);
 
 			return {

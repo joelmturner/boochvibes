@@ -12,11 +12,11 @@
 	</p>
 {/if}
 
-<h1 class={css({ fontSize: '3xl', color: 'white', mb: '4' })}>Howdy {data.username}!</h1>
 <div
 	class={grid({
 		columns: { base: 1, lg: 3 },
-		gap: '4'
+		gap: '4',
+		pt: '5',
 	})}
 >
 	{#each data.kombuchas as kombucha}

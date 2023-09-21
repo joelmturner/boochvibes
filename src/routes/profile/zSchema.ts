@@ -10,4 +10,10 @@ export const profileSchema = z.object({
 	first_name: z.string().min(1).max(64).trim().nullish(),
 	last_name: z.string().min(1).max(64).trim().nullish(),
 	bio: z.string().min(1).max(288).trim().nullish(),
+	socialLinks: z.object({
+		facebook: z.string().url().nullish(),
+		twitter: z.string().url().nullish(),
+		instagram: z.string().url().nullish(),
+		youtube: z.string().url().nullish(),
+	}),
 });

@@ -10,7 +10,7 @@
 </script>
 
 <div class={flex({ direction: 'column', gap: '6' })}>
-	<Card {kombucha} />
+	<Card {kombucha} highlight />
 	{#if data.reviewedSuccess}
 		<div class={css({ color: 'green.500' })}>Review added!</div>
 	{:else if !data.userHasReviewed && data.isLoggedIn}

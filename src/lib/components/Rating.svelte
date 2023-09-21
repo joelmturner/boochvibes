@@ -4,10 +4,11 @@
 
 	export let rating: number;
 	export let count: number | null = null;
+	export let size: 'md' | 'lg' = 'md';
 	const stars = Array.from({ length: 5 }, (_, i) => i + 1);
 </script>
 
-<div class={flex({ gap: '1', alignItems: 'center' })}>
+<div class={flex({ gap: '0', alignItems: 'center' })}>
 	{#each stars as star, index}
 		<svg
 			xmlns="http://www.w3.org/2000/svg"
@@ -15,7 +16,11 @@
 			viewBox="0 0 24 24"
 			stroke-width="1.5"
 			stroke="currentColor"
-			class={css({ w: '4', h: '4', fill: index + 1 > rating ? 'transparent' : 'black' })}
+			class={css({
+				w: size === 'md' ? '4' : '6',
+				h: size === 'md' ? '4' : '6',
+				fill: index + 1 > rating ? 'transparent' : 'black',
+			})}
 		>
 			<path
 				stroke-linecap="round"

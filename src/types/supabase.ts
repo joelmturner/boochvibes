@@ -189,3 +189,5 @@ export interface Database {
 		};
 	};
 }
+
+export type SocialLink = 'twitter' | 'facebook' | 'instagram' | 'youtube';
