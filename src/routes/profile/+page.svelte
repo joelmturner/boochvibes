@@ -44,8 +44,8 @@
 						lineHeight: 1,
 					})}
 				>
-					{$form.first_name}
-					{$form.last_name}
+					{$form.first_name ?? ''}
+					{$form.last_name ?? ''}
 				</div>
 				<div
 					class={css({
@@ -57,7 +57,7 @@
 				</div>
 
 				<div class={css({ letterSpacing: 'wide', mt: '2' })}>
-					{$form.bio}
+					{$form.bio ?? ''}
 				</div>
 
 				<SocialLinks socialLinks={$form.socialLinks} />

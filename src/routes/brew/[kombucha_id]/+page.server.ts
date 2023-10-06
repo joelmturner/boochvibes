@@ -1,4 +1,4 @@
-import { getRatingCounts } from '$lib';
+import { getRatingCounts } from '$lib/utils';
 import { supabase } from '$lib/supabaseClient';
 import { AuthApiError } from '@supabase/supabase-js';
 import { fail, type Actions, redirect } from '@sveltejs/kit';
@@ -35,7 +35,7 @@ export async function load({ params, url, locals }) {
 		}))
 		?.sort((reviewA, reviewB) => reviewB.created_at!.localeCompare(reviewA.created_at!));
 
-	const { avg, ratingCount } = getRatingCounts(reviews ?? []);
+	const { avg, ratingCount, starCounts } = getRatingCounts(reviews ?? []);
 
 	const userId = (await locals.getSession())?.user.id;
 	const userHasReviewed = reviews?.some((review) => review.user_id === userId);
@@ -50,6 +50,7 @@ export async function load({ params, url, locals }) {
 		rating: {
 			avg,
 			count: ratingCount,
+			starCounts,
 		},
 	};
 

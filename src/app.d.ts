@@ -51,11 +51,18 @@ export type Brand = {
 export type Rating = {
 	avg: number;
 	count: number;
+	starCounts: {
+		'1': number;
+		'2': number;
+		'3': number;
+		'4': number;
+		'5': number;
+	};
 };
 
 export type Kombucha = {
 	id: number;
-	name: string;
+	name: string | null;
 	brand: Brand;
 	rating: Rating;
 	image_url: string;

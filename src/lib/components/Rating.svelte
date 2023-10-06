@@ -5,10 +5,21 @@
 	export let rating: number;
 	export let count: number | null = null;
 	export let size: 'md' | 'lg' = 'md';
+	export let onclick: (() => void) | null = null;
 	const stars = Array.from({ length: 5 }, (_, i) => i + 1);
 </script>
 
-<div class={flex({ gap: '0', alignItems: 'center' })}>
+<div
+	class={flex({ gap: '0', alignItems: 'center' })}
+	on:click|preventDefault={onclick}
+	on:keydown={(event) => {
+		if (onclick && ['Enter', ' '].includes(event.key)) {
+			onclick();
+		}
+	}}
+	role="button"
+	tabindex="0"
+>
 	{#each stars as star, index}
 		<svg
 			xmlns="http://www.w3.org/2000/svg"

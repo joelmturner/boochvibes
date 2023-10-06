@@ -7,6 +7,7 @@
 
 	export let kombucha: Kombucha;
 	export let highlight: boolean = false;
+	export let onRatingClick: (() => void) | null = null;
 	$: ({ avg: rating, count } = kombucha.rating);
 </script>
 
@@ -36,7 +37,7 @@
 			>
 				<a href={`/brand/${kombucha.brand.id}`}>{kombucha.brand.name}</a>
 			</div>
-			<Rating {rating} {count} size={highlight ? 'lg' : 'md'} />
+			<Rating {rating} {count} size={highlight ? 'lg' : 'md'} onclick={onRatingClick} />
 			{#if kombucha.description}
 				<div class={css({ letterSpacing: 'wide', mt: '2', fontSize: 'md' })}>
 					{kombucha.description}
