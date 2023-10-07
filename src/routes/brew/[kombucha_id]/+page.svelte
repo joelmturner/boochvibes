@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { css } from 'styled-system/css';
-	import { card, flex } from 'styled-system/patterns';
+	import { flex, hero } from 'styled-system/patterns';
 	import ReviewEdit from '@components/ReviewEdit.svelte';
 	import Card from '@components/Card.svelte';
 	import Reviews from '@components/Reviews.svelte';
@@ -18,7 +18,7 @@
 
 <div class={flex({ direction: 'column', gap: '6' })}>
 	{#if detailedRatingsOpen}
-		<div class={card({ size: 'md' })}>
+		<div class={hero({ size: 'md' })}>
 			<svg
 				on:click|preventDefault={handleCloseRatings}
 				xmlns="http://www.w3.org/2000/svg"
@@ -44,7 +44,9 @@
 			<RatingDetailed rating={kombucha.rating} />
 		</div>
 	{:else}
-		<Card {kombucha} highlight onRatingClick={() => (detailedRatingsOpen = true)} />
+		<div class={hero({ size: 'md' })}>
+			<Card {kombucha} highlight onRatingClick={() => (detailedRatingsOpen = true)} />
+		</div>
 	{/if}
 
 	{#if data.reviewedSuccess}

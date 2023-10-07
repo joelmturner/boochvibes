@@ -1,4 +1,4 @@
-import { getRatingCounts } from '$lib';
+import { getRatingCounts } from '$lib/utils';
 import type { Brand, Kombucha } from '../../../app';
 
 export async function load({ params, locals }) {

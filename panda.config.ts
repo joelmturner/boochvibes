@@ -29,8 +29,8 @@ export default defineConfig({
 
 	patterns: {
 		extend: {
-			card: {
-				description: 'A basic card',
+			hero: {
+				description: 'A basic hero',
 				properties: {
 					// sizing to adjust padding and gap
 					size: { type: 'enum', value: ['sm', 'md', 'lg'] },
@@ -51,6 +51,38 @@ export default defineConfig({
 						overflow: 'hidden',
 						bg: 'white',
 						shadow: 'lg',
+						...rest,
+					};
+				},
+			},
+			card: {
+				description: 'A basic card',
+				properties: {
+					// sizing to adjust padding and gap
+					size: { type: 'enum', value: ['sm', 'md', 'lg'] },
+				},
+				transform(props) {
+					const { size = 'md', ...rest } = props;
+					const SIZE_VS_PADDING = {
+						sm: '2',
+						md: '4',
+						lg: '6',
+					};
+					return {
+						display: 'flex',
+						flexDirection: 'column',
+						gap: SIZE_VS_PADDING[size],
+						padding: SIZE_VS_PADDING[size],
+						rounded: 'xl',
+						overflow: 'hidden',
+						bg: 'white',
+						shadow: 'lg',
+                        maxW: '90%',
+                        mx: 'auto',
+                        w: '100%',
+                        lg: {
+                            maxW: '100%',
+                        },
 						...rest,
 					};
 				},

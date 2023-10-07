@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { css } from 'styled-system/css';
 	import { card, grid } from 'styled-system/patterns';
 	import Card from '@components/Card.svelte';
 
@@ -16,10 +15,10 @@
 	class={grid({
 		columns: { base: 1, lg: 3 },
 		gap: '4',
-		pt: '5',
+		py: '5',
 	})}
 >
 	{#each data.kombuchas as kombucha}
-		<Card {kombucha} />
+		<div class={card()}><Card {kombucha} /></div>
 	{/each}
 </div>

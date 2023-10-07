@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { css } from 'styled-system/css';
-	import { btn, card, flex, input } from 'styled-system/patterns';
+	import { btn, card, flex, hero, input } from 'styled-system/patterns';
 	import ImageUploadWidget from '@components/ImageUploadWidget.svelte';
 	import { superForm } from 'sveltekit-superforms/client';
 	import Image from '@components/Image.svelte';
@@ -23,12 +23,12 @@
 {/if}
 
 {#if !data.userLoggedIn}
-	<div class={card()}>
+	<div class={hero()}>
 		<p class={css({ color: 'red.500', mb: '3' })}>You must be logged in to view this page.</p>
 		<a href="/login" class={css({ color: 'blue.500' })}>Login</a>
 	</div>
 {:else}
-	<div class={card({ size: 'md' })}>
+	<div class={hero({ size: 'md' })}>
 		<div class={flex({ gap: '3' })}>
 			<div
 				class={flex({

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Select from 'svelte-select';
-	import { card, flex, grid, gridItem, input } from 'styled-system/patterns';
+	import { card, flex, grid, gridItem, hero, input } from 'styled-system/patterns';
 	import { css } from 'styled-system/css';
 	import ImageUploadWidget from '@components/ImageUploadWidget.svelte';
 	import Image from '@components/Image.svelte';
@@ -43,9 +43,13 @@
 {/if}
 
 <div class={flex({ direction: 'column', gap: '4' })}>
-	<div class={card()}>
+	<div class={hero()}>
 		<h1 class={css({ fontSize: '3xl', fontWeight: 'bold' })}>Add a new booch</h1>
-		<form class={grid({ columns: 2, gap: '3' })} method="POST" use:enhance>
+		<form
+			class={grid({ columns: { base: 1, lg: 2 }, gap: '3', maxW: { base: 'screen', md: '100%' } })}
+			method="POST"
+			use:enhance
+		>
 			<div class={flex({ direction: 'column', gap: '3' })}>
 				<div class={flex({ direction: 'column', gap: '1' })}>
 					<label for="name">Name</label>
@@ -185,7 +189,7 @@
 
 			<button
 				class={gridItem({
-					colSpan: 2,
+					colSpan: { base: 1, lg: 2 },
 					border: '1px solid',
 					borderColor: 'gray.400',
 					w: 'xs',
