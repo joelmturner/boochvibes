@@ -3,22 +3,23 @@ import type { PageServerLoad } from './$types';
 import { fail } from '@sveltejs/kit';
 import { addBoochSchema } from './zSchema';
 import { message, superValidate } from 'sveltekit-superforms/server';
+import { zod } from 'sveltekit-superforms/adapters';
 
 export const load = (async (event) => {
 	const { data: brands, error: err } = await event.locals.supabase
 		.from('brands')
 		.select()
 		.order('name', { ascending: true });
-	const form = await superValidate(event, addBoochSchema);
+	const form = await superValidate(event, zod(addBoochSchema));
 	return {
 		brands,
 		form,
 	};
-}) satisfies PageServerLoad;
+}) ;
 
 export const actions = {
 	default: async (event) => {
-		const form = await superValidate(event, addBoochSchema);
+		const form = await superValidate(event, zod(addBoochSchema));
 		const {
 			locals: { supabase, getSession },
 		} = event;

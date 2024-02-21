@@ -6,11 +6,11 @@ export const profileSchema = z.object({
 		.min(2, { message: 'username must be at least 2 characters' })
 		.max(64, { message: 'username must be less than 64 characters' })
 		.trim(),
-	profile_url: z.union([z.string().url().nullish(), z.literal('')]),
+	profile_url: z.string().url().nullish(),
 	first_name: z.string().min(1).max(64).trim().nullish(),
 	last_name: z.string().min(1).max(64).trim().nullish(),
 	bio: z.string().min(1).max(288).trim().nullish(),
-	socialLinks: z.object({
+	social_links: z.object({
 		facebook: z.string().url().nullish(),
 		twitter: z.string().url().nullish(),
 		instagram: z.string().url().nullish(),

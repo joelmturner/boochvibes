@@ -3,10 +3,11 @@
 	import { card, flex, input } from 'styled-system/patterns';
 	import { loginSchema } from './zSchema.js';
 	import { superForm } from 'sveltekit-superforms/client';
+	import { zod } from 'sveltekit-superforms/adapters';
 
 	export let data;
 	const { form, errors, enhance } = superForm(data.form, {
-		validators: loginSchema,
+		validators: zod(loginSchema),
 		taintedMessage: null,
 	});
 </script>
@@ -16,14 +17,14 @@
 
 	<form method="POST" class={flex({ direction: 'column', gap: '3' })} use:enhance>
 		<div class={flex({ direction: 'column', gap: '1' })}>
-			<label for="email" class={css({ color: 'gray.700' })}>Email</label>
+			<label for="email" class={css({ color: 'text' })}>Email</label>
 			<input bind:value={$form.email} id="email" name="email" class={input()} />
 			{#if $errors?.email}
 				<small class={css({ color: 'red.500' })}>{$errors.email.join(', ')}</small>
 			{/if}
 		</div>
 		<div class={flex({ direction: 'column', gap: '1' })}>
-			<label for="password" class={css({ color: 'gray.700' })}>Password</label>
+			<label for="password" class={css({ color: 'text' })}>Password</label>
 			<input
 				bind:value={$form.password}
 				id="password"

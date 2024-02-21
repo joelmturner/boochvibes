@@ -13,7 +13,7 @@
 			widget = (window.cloudinary as any).createUploadWidget(
 				{
 					cloudName: PUBLIC_CLOUDINARY_CLOUD_NAME,
-					uploadPreset: preset
+					uploadPreset: preset,
 				},
 				(error: any, result: any) => {
 					if (result?.info?.secure_url) {
@@ -47,12 +47,12 @@
 			inset: 0,
 			justifyContent: 'center',
 			alignItems: 'center',
-			bg: 'rgba(255, 255, 255, 0.8)',
+			// bg: 'rgba(255, 255, 255, 0.8)',
 			rounded: 'full',
 			transition: 'background-color 100ms, border 100ms, opacity 100ms',
 			'[data-id="trigger"]:hover &': {
-				opacity: 1
-			}
+				opacity: 1,
+			},
 		})}
 	>
 		<svg

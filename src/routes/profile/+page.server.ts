@@ -2,6 +2,7 @@ import { AuthApiError } from '@supabase/supabase-js';
 import { fail } from '@sveltejs/kit';
 import { message, superValidate } from 'sveltekit-superforms/server';
 import { profileSchema } from './zSchema';
+import { zod } from 'sveltekit-superforms/adapters';
 
 export async function load(event) {
 	const userId = (await event.locals.getSession())?.user.id;
@@ -10,7 +11,7 @@ export async function load(event) {
 		.select('*')
 		.eq('user_id', userId);
 
-	const form = await superValidate(event, profileSchema);
+	const form = await superValidate(event, zod(profileSchema));
 
 	if (user?.[0]) {
 		form.data = user[0];
@@ -24,7 +25,7 @@ export async function load(event) {
 
 export const actions = {
 	default: async (event) => {
-		const form = await superValidate(event, profileSchema);
+		const form = await superValidate(event, zod(profileSchema));
 
 		if (!form.valid) {
 			return fail(400, {

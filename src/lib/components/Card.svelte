@@ -15,7 +15,7 @@
 	<div
 		class={flex({
 			direction: 'column',
-			color: 'gray.800',
+			color: 'text',
 			gridColumn: 'span 2',
 		})}
 	>
@@ -31,7 +31,7 @@
 		<div
 			class={css({
 				fontSize: { base: 'md', lg: highlight ? 'xl' : 'md' },
-				color: 'gray.500',
+				color: 'textMuted',
 			})}
 		>
 			<a href={`/brand/${kombucha.brand.id}`}>{kombucha.brand.name}</a>
@@ -46,14 +46,15 @@
 
 	<div
 		class={flex({
-			bg: 'white',
-			py: '2',
 			justifyContent: 'center',
 			alignItems: 'flex-start',
 		})}
 	>
-		<a href={`/brew/${kombucha.id}`} class={css({ w: 'full' })}
-			><Image src={kombucha.image_url} alt={kombucha.name} /></a
+		<a
+			href={`/brew/${kombucha.id}`}
+			class={css({ w: 'full', background: 'white', borderRadius: 'md', p: '1' })}
 		>
+			<Image src={kombucha.image_url} alt={kombucha.name ?? 'kombucha'} />
+		</a>
 	</div>
 </div>

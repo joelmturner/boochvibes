@@ -45,6 +45,7 @@
         "@supabase/supabase-js": "^2.39.7",
         "svelte-cloudinary": "^1.2.1",
         "svelte-select": "^5.8.3",
+        "theme-change": "^2.5.0",
         "zod": "^3.22.4"
     }
 }

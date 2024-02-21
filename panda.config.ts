@@ -3,7 +3,8 @@ import { defineConfig } from '@pandacss/dev';
 
 const globalCss = defineGlobalStyles({
 	'html, body': {
-		bg: 'gray.200',
+		bg: 'background',
+		color: 'text',
 	},
 });
 
@@ -19,13 +20,41 @@ export default defineConfig({
 
 	// Useful for theme customization
 	theme: {
-		extend: {},
+		semanticTokens: {
+            colors: {
+                background: {
+                    value: {base: '{colors.gray.800}', _light: '{colors.gray.200}'},
+                },
+                backgroundStrong: {
+                    value: {base: '{colors.gray.900}', _light: 'white'},
+                },
+                backgroundMuted: {
+                    value: {base: '{colors.gray.700}', _light: '{colors.gray.100}'},
+                },
+                text: {
+                    value: {base: '{colors.gray.100}', _light: '{colors.gray.900}'},
+                },
+                textMuted: {
+                    value: {base: '{colors.gray.400}', _light: '{colors.gray.600}'},
+                },
+                textInverse: {
+                    value: {base: '{colors.gray.900}', _light: '{colors.gray.100}'},
+                }
+            }
+        }
 	},
 
 	// The output directory for your css system
 	outdir: 'styled-system',
 
 	globalCss,
+
+    conditions: {
+        extend: {
+            dark: '.dark &, [data-theme="dark"] &',
+            light: '.light &, [data-theme="light"] &',
+        }
+    },
 
 	patterns: {
 		extend: {
@@ -49,7 +78,7 @@ export default defineConfig({
 						padding: SIZE_VS_PADDING[size],
 						roundedBottom: 'xl',
 						overflow: 'hidden',
-						bg: 'white',
+						bg: 'backgroundStrong',
 						shadow: 'lg',
 						...rest,
 					};
@@ -75,7 +104,7 @@ export default defineConfig({
 						padding: SIZE_VS_PADDING[size],
 						rounded: 'xl',
 						overflow: 'hidden',
-						bg: 'white',
+						bg: {base: 'slate.900', _light: 'white'},
 						shadow: 'lg',
                         maxW: '90%',
                         mx: 'auto',
@@ -108,7 +137,8 @@ export default defineConfig({
 						lineHeight: 'relaxed',
 						resize: 'vertical',
 						flexShrink: '1',
-						color: 'gray.800',
+						color: 'text',
+                        bg: 'backgroundMuted',
 						...rest,
 					};
 				},
@@ -127,12 +157,12 @@ export default defineConfig({
 						primary: {
 							bg: 'primary',
 							borderColor: 'gray.400',
-							color: 'gray.800',
+							color: 'text',
 						},
 						secondary: {
 							bg: 'transparent',
 							borderColor: 'gray.400',
-							color: 'gray.800',
+							color: 'text',
 						},
 					};
 

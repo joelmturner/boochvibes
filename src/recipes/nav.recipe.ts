@@ -3,29 +3,29 @@ import { sva } from 'styled-system/css'
 export const nav = sva({
   slots: ['menu', 'subMenu', 'item', 'trigger', 'check', 'dot', 'separator', 'rightSlot', 'icon', 'check', 'text'],
   base: {
-    menu: { display: 'flex', flexDir: 'column', shadow: "lg", maxH: '300px', minW: '220px', rounded: "md", bg: "white", p: 1, lg: { h: "none" } },
+    menu: { display: 'flex', flexDir: 'column', shadow: "lg", maxH: '300px', minW: '220px', rounded: "md", bg: "background", p: 1, lg: { h: "none" } },
     subMenu: { minW:'220px', shadow: 'md'  },
     item: { 
         minH: '24px',
-        position: "relative", h: 6, rounded: "sm", pl: 6, pr: 1, color: "gray.900", outlineStyle: "solid", outlineWidth: 0, alignItems: "center", fontSize: "sm",
+        position: "relative", h: 6, rounded: "sm", pl: 6, pr: 1, color: "text", outlineStyle: "solid", outlineWidth: 0, alignItems: "center", fontSize: "sm",
         _hover: {
-            bg: 'gray.100'
+            bg: 'backgroundMuted'
         },
         '& [data-highlighted]': {
-            bg: 'gray.200',
-            color: 'gray.900'
+            bg: 'background',
+            color: 'text'
         },
         '& [data-disabled]': {
-            color: 'gray.300'
+            color: 'textMuted',
         }
     },
     trigger: {
-        color: 'gray.900', p: '2', bg: 'transparent', rounded: 'full',
-        _hover: { bg: "gray.100",  },
+        color: 'text', p: '2', bg: 'transparent', rounded: 'full',
+        _hover: { bg: "backgroundMuted",  },
         '& [data-highlighted]': {
             outline: 'none',
-            color: 'gray.900',
-            h: 9, w: 9, alignItems: "center", justifyContent: "center", rounded: "full", bg: "white", p: 0, fontSize: "sm", fontWeight: "medium"
+            color: 'text',
+            h: 9, w: 9, alignItems: "center", justifyContent: "center", rounded: "full", bg: "background", p: 0, fontSize: "sm", fontWeight: "medium"
         }
     },
     check: {
@@ -35,7 +35,7 @@ export const nav = sva({
         h: '4.75px', w: '4.75px', rounded: 'full', bg: 'gray.500'
     },
     separator: {
-        h: '1px', w: '5px', bg: 'gray.200'
+        h: '1px', w: '5px', bg: 'background'
     },
     rightSlot: {
         ml: 'auto',
@@ -45,7 +45,7 @@ export const nav = sva({
         h: '13px', w: '13px'
     },
     text: {
-        pl: 6, fontSize: 'xs', color: 'gray.600'
+        pl: 6, fontSize: 'xs', color: 'text'
     }
   },
   variants: {

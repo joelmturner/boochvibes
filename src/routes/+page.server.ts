@@ -1,5 +1,6 @@
 import { supabase } from '$lib/supabaseClient';
 import { getRatingCounts } from '$lib/utils';
+import { redirect, type Actions } from '@sveltejs/kit';
 import type { Brand, Kombucha } from '../app';
 
 export async function load({ url, locals }) {
