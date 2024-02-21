@@ -8,6 +8,14 @@
 	$: ({ brand, kombuchas } = data);
 </script>
 
+<svelte:head>
+	<title>{`${brand.name} | BoochVibes`}</title>
+	<meta
+		name="description"
+		content={`Rate kombuchas from ${brand.name} and see what others think!`}
+	/>
+</svelte:head>
+
 <div class={flex({ direction: 'column', gap: '4' })}>
 	<div class={hero({ gap: '1' })}>
 		<h1 class={css({ fontSize: '3xl' })}>{brand.name}</h1>

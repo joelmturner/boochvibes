@@ -3,11 +3,12 @@
 	import { onMount } from 'svelte';
 	import { css } from 'styled-system/css';
 	import { flex } from 'styled-system/patterns';
-	import { CldImage } from 'svelte-cloudinary';
+	import { CldImage, CldOgImage } from 'svelte-cloudinary';
 	import Nav from '@components/Nav.svelte';
 	import { themeChange } from 'theme-change';
 
 	import '../app.css';
+	import { page } from '$app/stores';
 
 	let navOpen = false;
 	export let data;
@@ -29,6 +30,34 @@
 		return () => subscription.unsubscribe();
 	});
 </script>
+
+<CldOgImage
+	src="boochtown/ui/Booch_Vibes_Scene.png"
+	tint="100:0762a0"
+	opacity="40"
+	overlays={[
+		{
+			text: {
+				color: '#8E4505',
+				fontFamily: 'Source Sans Pro',
+				fontSize: 200,
+				fontWeight: 'bold',
+				text: 'Review That Booch!',
+			},
+			appliedEffects: [{ shadow: true }],
+		},
+	]}
+	alt="beach scene with text Review That Booch! in the sky"
+	twitterTitle="Review That Booch!"
+/>
+
+<svelte:head>
+	<title>Review That Booch!</title>
+	<meta
+		name="description"
+		content="A place for Booch bums to rate their favorite kombuchas and find new ones."
+	/>
+</svelte:head>
 
 <div
 	class={flex({
