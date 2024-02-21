@@ -23,22 +23,22 @@ export default defineConfig({
 		semanticTokens: {
             colors: {
                 background: {
-                    value: {base: '{colors.gray.800}', _light: '{colors.gray.200}'},
+                    value: {_dark: '{colors.gray.800}', base: '{colors.gray.200}'},
                 },
                 backgroundStrong: {
-                    value: {base: '{colors.gray.900}', _light: 'white'},
+                    value: {_dark: '{colors.gray.900}', base: 'white'},
                 },
                 backgroundMuted: {
-                    value: {base: '{colors.gray.700}', _light: '{colors.gray.100}'},
+                    value: {_dark: '{colors.gray.700}', base: '{colors.gray.100}'},
                 },
                 text: {
-                    value: {base: '{colors.gray.100}', _light: '{colors.gray.900}'},
+                    value: {_dark: '{colors.gray.100}', base: '{colors.gray.900}'},
                 },
                 textMuted: {
-                    value: {base: '{colors.gray.400}', _light: '{colors.gray.600}'},
+                    value: {_dark: '{colors.gray.400}', base: '{colors.gray.600}'},
                 },
                 textInverse: {
-                    value: {base: '{colors.gray.900}', _light: '{colors.gray.100}'},
+                    value: {_dark: '{colors.gray.900}', base: '{colors.gray.100}'},
                 }
             }
         }
@@ -104,7 +104,7 @@ export default defineConfig({
 						padding: SIZE_VS_PADDING[size],
 						rounded: 'xl',
 						overflow: 'hidden',
-						bg: {base: 'slate.900', _light: 'white'},
+						bg: {_dark: 'slate.900', base: 'white'},
 						shadow: 'lg',
                         maxW: '90%',
                         mx: 'auto',
