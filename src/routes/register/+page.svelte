@@ -11,7 +11,7 @@
 </script>
 
 <div class={card({ size: 'md' })}>
-	<h1 class={css({ fontSize: 'xl', fontWeight: 'bold' })}>Register for BoochTown</h1>
+	<h1 class={css({ fontSize: 'xl', fontWeight: 'bold' })}>Register for BoochVibes</h1>
 	<form method="POST" class={flex({ direction: 'column', gap: '5' })} use:enhance>
 		<div class={flex({ direction: 'column', gap: '1' })}>
 			<label for="username" class={css({ color: 'gray.700' })}>Username</label>
