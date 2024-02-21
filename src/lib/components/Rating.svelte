@@ -30,7 +30,7 @@
 			class={css({
 				w: size === 'md' ? '4' : '6',
 				h: size === 'md' ? '4' : '6',
-				fill: index + 1 > rating ? 'transparent' : 'black',
+				fill: index + 1 > rating ? 'transparent' : 'textMuted',
 			})}
 		>
 			<path

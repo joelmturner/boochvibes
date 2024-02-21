@@ -45,14 +45,19 @@
 	const classes = nav({ size: 'md' });
 </script>
 
-<button type="button" class={classes.trigger} use:melt={$trigger} aria-label="Update dimensions">
+<button
+	type="button"
+	class={cx(css({ color: 'text', _hover: { bg: 'backgroundMuted' } }), classes.trigger)}
+	use:melt={$trigger}
+	aria-label="Update dimensions"
+>
 	<svg
 		xmlns="http://www.w3.org/2000/svg"
 		fill="none"
 		viewBox="0 0 24 24"
 		stroke-width="1.5"
 		stroke="currentColor"
-		class={css({ w: '6', h: '6', cursor: 'pointer' })}
+		class={css({ w: '6', h: '6', cursor: 'pointer', stroke: 'text' })}
 	>
 		<path
 			stroke-linecap="round"
@@ -80,28 +85,35 @@
 {#if $open}
 	<div class={classes.menu} use:melt={$menu} transition:fly={{ duration: 150, y: -10 }}>
 		{#if loggedIn}
-			<div class={classes.item} use:melt={$item}><a href="/profile">Profile</a></div>
-			<div class={classes.item} use:melt={$item}><a href="/brew/add">Add New Booch</a></div>
-			<div class={classes.separator} use:melt={$separator} />
+			<div class={classes.item} use:melt={$item}>
+				<a href="/profile">Profile</a>
+			</div>
+			<div class={classes.item} use:melt={$item}>
+				<a href="/brew/add">Add New Booch</a>
+			</div>
+			<div class={cx(css({ bg: 'background' }), classes.separator)} use:melt={$separator} />
 			<div use:melt={$item}>
 				<form action="/logout" method="POST" class={css({ fontSize: 'xl' })}>
 					<button
 						type="submit"
 						class={cx(
-							classes.item,
 							css({
 								cursor: 'pointer',
-								color: 'currentColor',
 								w: 'full',
 								textAlign: 'left',
-							})
-						)}>Logout</button
+							}),
+							classes.item
+						)}><span class={css({ color: 'text' })}>Logout</span></button
 					>
 				</form>
 			</div>
 		{:else}
-			<div class={classes.item} use:melt={$item}><a href="/login">Login</a></div>
-			<div class={classes.item} use:melt={$item}><a href="/register">Register</a></div>
+			<div class={classes.item} use:melt={$item}>
+				<a href="/login">Login</a>
+			</div>
+			<div class={classes.item} use:melt={$item}>
+				<a href="/register">Register</a>
+			</div>
 		{/if}
 	</div>
 {/if}

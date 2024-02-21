@@ -6,13 +6,15 @@
 	import Image from '@components/Image.svelte';
 	import { superForm } from 'sveltekit-superforms/client';
 	import { addBoochSchema } from './zSchema';
+	import { zod } from 'sveltekit-superforms/adapters';
+	import { token } from 'styled-system/tokens';
 
 	let filterText = '';
 	let created: any[] = [];
 	export let data;
 
 	const { form, errors, enhance, message } = superForm(data.form, {
-		validators: addBoochSchema,
+		validators: zod(addBoochSchema),
 		dataType: 'json',
 	});
 
@@ -68,6 +70,12 @@
 						on:filter={handleFilter}
 						items={created.length > 0 ? created : items}
 						bind:filterText
+						class={css({ bg: 'backgroundMuted', color: 'text' })}
+						--background={token('colors.backgroundMuted')}
+						--list-background={token('colors.backgroundMuted')}
+						--item-hover-bg={token('colors.backgroundStrong')}
+						--colors-text={token('colors.text')}
+						--item-color={token('colors.text')}
 					>
 						<div slot="item" let:item>
 							{item.created ? 'Add new: ' : ''}
@@ -156,7 +164,7 @@
 							overflow: 'hidden',
 							justifyContent: 'center',
 							alignItems: 'center',
-							color: 'gray.400',
+							color: 'textMuted',
 							border: '1px dashed',
 							borderColor: 'gray.400',
 						})}

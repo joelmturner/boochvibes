@@ -6,10 +6,11 @@
 	import Image from '@components/Image.svelte';
 	import { profileSchema } from './zSchema';
 	import SocialLinks from '@components/SocialLinks.svelte';
+	import { zod } from 'sveltekit-superforms/adapters';
 
 	export let data;
 	const { form, errors, enhance, message } = superForm(data.form, {
-		validators: profileSchema,
+		validators: zod(profileSchema),
 		dataType: 'json',
 	});
 
@@ -33,7 +34,7 @@
 			<div
 				class={flex({
 					direction: 'column',
-					color: 'gray.800',
+					color: 'textMuted',
 					flex: '1 1 0',
 				})}
 			>
@@ -50,7 +51,7 @@
 				<div
 					class={css({
 						fontSize: 'md',
-						color: 'gray.500',
+						color: 'text',
 					})}
 				>
 					{$form.username}
@@ -60,12 +61,12 @@
 					{$form.bio ?? ''}
 				</div>
 
-				<SocialLinks socialLinks={$form.socialLinks} />
+				<SocialLinks socialLinks={$form.social_links} />
 			</div>
 
 			<div
 				class={flex({
-					bg: 'white',
+					// bg: 'white',
 					w: '1/3',
 					py: '2',
 					justifyContent: 'center',
@@ -84,7 +85,7 @@
 	</div>
 	<form method="POST" class={flex({ direction: 'column', gap: '3', p: '4' })} use:enhance>
 		<div class={css({ w: '36', h: '36' })}>
-			<ImageUploadWidget setUrl={handleSetUrl} preset="boochtown_product">
+			<ImageUploadWidget setUrl={handleSetUrl} preset="boochtown_profile">
 				{#if $form?.profile_url}
 					<Image
 						src={$form?.profile_url}
@@ -99,7 +100,7 @@
 		</div>
 
 		<div class={flex({ direction: 'column', gap: '1' })}>
-			<label for="first_name" class={css({ color: 'gray.700' })}>First name</label>
+			<label for="first_name" class={css({ color: 'text' })}>First name</label>
 			<input id="first_name" name="first_name" class={input()} bind:value={$form.first_name} />
 			{#if $errors?.first_name}
 				<small class={css({ color: 'red.500' })}>{$errors.first_name.join(', ')}</small>
@@ -107,7 +108,7 @@
 		</div>
 
 		<div class={flex({ direction: 'column', gap: '1' })}>
-			<label for="last_name" class={css({ color: 'gray.700' })}>Last name</label>
+			<label for="last_name" class={css({ color: 'text' })}>Last name</label>
 			<input id="last_name" name="last_name" class={input()} bind:value={$form.last_name} />
 			{#if $errors?.last_name}
 				<small class={css({ color: 'red.500' })}>{$errors.last_name.join(', ')}</small>
@@ -115,7 +116,7 @@
 		</div>
 
 		<div class={flex({ direction: 'column', gap: '1' })}>
-			<label for="username" class={css({ color: 'gray.700' })}>Username</label>
+			<label for="username" class={css({ color: 'text' })}>Username</label>
 			<input id="username" name="username" class={input()} bind:value={$form.username} />
 			{#if $errors?.username}
 				<small class={css({ color: 'red.500' })}>{$errors.username.join(', ')}</small>
@@ -123,12 +124,12 @@
 		</div>
 
 		<fieldset class={flex({ direction: 'column', gap: '1' })}>
-			<label for="bio" class={css({ color: 'gray.700' })}>Bio: (optional)</label>
+			<label for="bio" class={css({ color: 'text' })}>Bio: (optional)</label>
 			<textarea id="bio" name="bio" class={input({ multiline: true })} bind:value={$form.bio} />
 		</fieldset>
 
 		<div class={flex({ direction: 'column', gap: '1' })}>
-			<label for="username" class={css({ color: 'gray.700' })}>Username</label>
+			<label for="username" class={css({ color: 'text' })}>Username</label>
 			<input id="username" name="username" class={input()} bind:value={$form.username} />
 			{#if $errors?.username}
 				<small class={css({ color: 'red.500' })}>{$errors.username.join(', ')}</small>

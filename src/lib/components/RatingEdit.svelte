@@ -21,7 +21,13 @@
 	$: ratings = hoverRating > -1 ? hoverRating : rating;
 </script>
 
-<div class={flex({ gap: '1', alignItems: 'center', color: 'orange.500' })}>
+<div
+	class={flex({
+		gap: '1',
+		alignItems: 'center',
+		color: { base: 'orange.300', _light: 'orange.500' },
+	})}
+>
 	<input hidden={true} name="rating" value={rating} />
 	{#each stars as star, index}
 		<svg
@@ -34,7 +40,7 @@
 				w: '8',
 				h: '8',
 				fill: index + 1 > ratings ? 'transparent' : 'currentColor',
-				cursor: 'pointer'
+				cursor: 'pointer',
 			})}
 			on:click|preventDefault={() => handleClick(index)}
 			on:keydown={() => handleClick(index)}

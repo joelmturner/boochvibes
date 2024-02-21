@@ -1,17 +1,18 @@
 import { AuthApiError } from '@supabase/supabase-js';
 import { fail, redirect } from '@sveltejs/kit';
 import { setError, superValidate } from 'sveltekit-superforms/server';
+import { zod } from 'sveltekit-superforms/adapters';
 import { loginSchema } from './zSchema';
 
 export const load = async (event) => {
-	const form = await superValidate(event, loginSchema);
+	const form = await superValidate(event, zod(loginSchema));
 
 	return { form };
 };
 
 export const actions = {
 	default: async (event) => {
-		const form = await superValidate(event, loginSchema);
+		const form = await superValidate(event, zod(loginSchema));
 
 		if (!form.valid) {
 			return fail(400, {
