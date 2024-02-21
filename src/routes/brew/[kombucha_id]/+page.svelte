@@ -16,6 +16,14 @@
 	}
 </script>
 
+<svelte:head>
+	<title>{`${kombucha.name} | BoochVibes`}</title>
+	<meta
+		name="description"
+		content={`Rate ${kombucha.name} from ${kombucha.brand.name} and see what others think!`}
+	/>
+</svelte:head>
+
 <div class={flex({ direction: 'column', gap: '6' })}>
 	{#if detailedRatingsOpen}
 		<div class={hero({ size: 'md' })}>
