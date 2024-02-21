@@ -24,7 +24,7 @@
 	<button
 		type="submit"
 		class={css({
-			bg: { base: 'orange.300', _light: 'orange.500' },
+			bg: { _dark: 'orange.300', base: 'orange.500' },
 			color: 'textInverse',
 			textTransform: 'uppercase',
 			letterSpacing: '2px',
@@ -35,7 +35,7 @@
 			py: '2',
 			cursor: 'pointer',
 			_hover: {
-				bg: { base: 'orange.400', _light: 'orange.600' },
+				bg: { _dark: 'orange.400', base: 'orange.600' },
 			},
 		})}>Submit</button
 	>

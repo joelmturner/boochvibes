@@ -25,7 +25,7 @@
 	class={flex({
 		gap: '1',
 		alignItems: 'center',
-		color: { base: 'orange.300', _light: 'orange.500' },
+		color: { _dark: 'orange.300', base: 'orange.500' },
 	})}
 >
 	<input hidden={true} name="rating" value={rating} />
