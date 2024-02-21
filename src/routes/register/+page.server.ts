@@ -40,6 +40,6 @@ export const actions: Actions = {
 			});
 		}
 
-		throw redirect(303, '/?registrationSuccess');
+		redirect(303, '/?registrationSuccess');
 	},
 };
