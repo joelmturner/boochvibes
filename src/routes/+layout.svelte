@@ -2,10 +2,10 @@
 	import { invalidate } from '$app/navigation';
 	import { onMount } from 'svelte';
 	import { css } from 'styled-system/css';
-	import { card, flex } from 'styled-system/patterns';
-	import { fade } from 'svelte/transition';
-	import '../app.css';
+	import { flex } from 'styled-system/patterns';
+	import { CldImage } from 'svelte-cloudinary';
 	import Nav from '@components/Nav.svelte';
+	import '../app.css';
 
 	let navOpen = false;
 	export let data;
@@ -43,7 +43,14 @@
 		})}
 	>
 		<div class={css({ fontSize: '3xl', fontWeight: 'bold' })}>
-			<a href="/">BoochTown</a>
+			<a href="/"
+				><CldImage
+					src="boochtown/ui/Booch_Vibes_Logo_2024.png"
+					alt="boochvibes logo beachy scene"
+					width={125}
+					height={125}
+				/></a
+			>
 		</div>
 		<div class={flex({ direction: 'column', gap: '3', position: 'relative' })}>
 			<Nav loggedIn={!!data.session} />
