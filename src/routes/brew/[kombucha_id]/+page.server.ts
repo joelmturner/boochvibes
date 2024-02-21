@@ -85,6 +85,6 @@ export const actions: Actions = {
 			});
 		}
 
-		throw redirect(303, `${url.pathname}?reviewedSuccessfully=true`);
+		redirect(303, `${url.pathname}?reviewedSuccessfully=true`);
 	},
 };
