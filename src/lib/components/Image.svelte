@@ -19,4 +19,5 @@
 	objectFit="contain"
 	crop="thumb"
 	gravity="center"
+	dpr="2"
 />

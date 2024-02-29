@@ -17,10 +17,10 @@
 
 <div
 	use:melt={$root}
-	class={css({ h: '2', w: 'full', bg: 'gray.100', overflow: 'hidden', rounded: 'md' })}
+	class={css({ h: '2', w: 'full', bg: 'backgroundMuted', overflow: 'hidden', rounded: 'md' })}
 >
 	<div
-		class={css({ w: 'full', h: 'full', bg: 'peachpuff' })}
+		class={css({ w: 'full', h: 'full', bg: 'textMuted' })}
 		style={`transform: translateX(-${100 - (100 * ($value ?? 0)) / ($max ?? 1)}%)`}
 	/>
 </div>

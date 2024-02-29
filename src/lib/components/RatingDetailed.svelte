@@ -8,22 +8,38 @@
 	export let rating: Rating;
 </script>
 
-<div class={flex({ maxW: 's', mx: 'auto', direction: 'column', gap: '2' })}>
-	<div class={css({ fontSize: '5xl', fontWeight: 'bold', textAlign: 'center' })}>
+<div class={flex({ mx: 'auto', direction: 'column', gap: '2' })}>
+	<div
+		class={css({
+			display: 'flex',
+			justifyContent: 'center',
+			alignItems: 'center',
+			fontSize: '3xl',
+			fontWeight: 'bold',
+			textAlign: 'center',
+			bg: 'backgroundMuted',
+			rounded: 'full',
+			aspectRatio: '1/1',
+			w: '16',
+			mx: 'auto',
+			hideBelow: 'md',
+		})}
+	>
 		{rating.avg}
 	</div>
 	<div>
 		<RatingComponent rating={rating.avg} count={rating.count} size="lg" />
-		<div>based on {rating.count} reviews</div>
+		<div class={css({ fontSize: 'xl', hideBelow: 'md' })}>based on {rating.count} reviews</div>
 	</div>
 </div>
 <div
 	class={flex({
-		width: { base: 'full', md: '1/2' },
+		width: 'full',
 		direction: 'column',
 		gap: 0,
-		fontSize: 'xs',
+		fontSize: 'md',
 		mx: 'auto',
+		hideBelow: 'md',
 	})}
 >
 	{#each Object.keys(rating.starCounts).reverse() as starCountKey}
