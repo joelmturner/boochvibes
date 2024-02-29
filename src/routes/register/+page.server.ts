@@ -2,16 +2,17 @@ import { fail, type Actions, redirect } from '@sveltejs/kit';
 import { superValidate } from 'sveltekit-superforms/server';
 import { registerSchema } from './zSchema';
 import { AuthApiError } from '@supabase/supabase-js';
+import { zod } from 'sveltekit-superforms/adapters';
 
 export const load = async (event) => {
-	const form = await superValidate(event, registerSchema);
+	const form = await superValidate(event, zod(registerSchema));
 
 	return { form };
 };
 
 export const actions: Actions = {
 	default: async (event) => {
-		const form = await superValidate(event, registerSchema);
+		const form = await superValidate(event, zod(registerSchema));
 
 		if (!form.valid) {
 			return fail(400, {

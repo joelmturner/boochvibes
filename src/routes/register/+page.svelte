@@ -3,10 +3,11 @@
 	import { css } from 'styled-system/css';
 	import { card, flex, input } from 'styled-system/patterns';
 	import { registerSchema } from './zSchema.js';
+	import { zod } from 'sveltekit-superforms/adapters';
 
 	export let data;
 	const { form, errors, enhance } = superForm(data.form, {
-		validators: registerSchema,
+		validators: zod(registerSchema),
 	});
 </script>
 
