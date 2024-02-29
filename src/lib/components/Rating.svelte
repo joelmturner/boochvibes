@@ -26,11 +26,11 @@
 			fill="none"
 			viewBox="0 0 24 24"
 			stroke-width="1.5"
-			stroke="currentColor"
 			class={css({
-				w: size === 'md' ? '4' : '6',
-				h: size === 'md' ? '4' : '6',
+				w: size === 'md' ? '4' : '8',
+				h: size === 'md' ? '4' : '8',
 				fill: index + 1 > rating ? 'transparent' : 'textMuted',
+				stroke: 'textMuted',
 			})}
 		>
 			<path
@@ -41,6 +41,6 @@
 		</svg>
 	{/each}
 	{#if count !== null}
-		<span class={css({ fontSize: 'small' })}>({count})</span>
+		<span class={css({ fontSize: size === 'md' ? 'small' : 'lg' })}>({count})</span>
 	{/if}
 </div>

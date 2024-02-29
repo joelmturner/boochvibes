@@ -22,6 +22,14 @@
 		<div class={css({ fontSize: 'md' })}>
 			{brand.city}, {brand.state}
 		</div>
+		{#if brand.url}
+			<a
+				href={brand.url}
+				class={css({ fontSize: 'md', color: 'textMuted', textDecoration: 'underline' })}
+				target="_blank"
+				rel="noopener noreferrer">{`Visit ${brand.name}`}</a
+			>
+		{/if}
 	</div>
 
 	<div

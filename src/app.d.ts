@@ -46,6 +46,7 @@ export type Brand = {
 	city: string;
 	state: string;
 	zip: number;
+    url: string;
 };
 
 export type Rating = {

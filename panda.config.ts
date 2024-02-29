@@ -3,7 +3,7 @@ import { defineConfig } from '@pandacss/dev';
 
 const globalCss = defineGlobalStyles({
 	'html, body': {
-		bg: 'background',
+		bg: 'backgroundStrong',
 		color: 'text',
 	},
 });

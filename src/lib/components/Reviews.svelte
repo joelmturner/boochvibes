@@ -9,7 +9,7 @@
 </script>
 
 {#if getFilteredReviews(reviews)?.length > 0}
-	<div class={flex({ direction: 'column', gap: { base: '5', lg: '7' }, px: '4', py: '4' })}>
+	<div class={flex({ direction: 'column', gap: { base: '5', lg: '7' } })}>
 		{#each getFilteredReviews(reviews) as review}
 			<Review {review} />
 		{/each}
