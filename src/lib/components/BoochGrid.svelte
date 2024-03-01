@@ -16,7 +16,7 @@
 	class={grid({
 		columns: { base: 3, lg: 5 },
 		gap: '4',
-		p: '4',
+		py: '4',
 	})}
 >
 	{#each kombuchas as kombucha}

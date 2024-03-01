@@ -24,7 +24,7 @@
 	/>
 </svelte:head>
 
-<div class={grid({ columns: { base: 1, md: 12 }, gap: '6', pt: 4, px: { base: 4, md: 1 } })}>
+<div class={grid({ columns: { base: 1, md: 12 }, gap: '6', pt: 4 })}>
 	<div
 		class={flex({
 			direction: 'column',

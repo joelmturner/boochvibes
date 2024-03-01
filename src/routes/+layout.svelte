@@ -9,8 +9,6 @@
 
 	import '../app.css';
 	import { page } from '$app/stores';
-
-	let navOpen = false;
 	export let data;
 
 	let { supabase, session } = data;
@@ -76,14 +74,16 @@
 		})}
 	>
 		<div class={css({ fontSize: '3xl', fontWeight: 'bold' })}>
-			<a href="/"
-				><CldImage
-					src="boochtown/ui/booch-vibes-logo_small.png"
-					alt="boochvibes logo beachy scene"
-					width={125}
-					height={125}
-				/></a
-			>
+			{#if $page.url.pathname !== '/'}
+				<a href="/">
+					<CldImage
+						src="boochtown/ui/booch-vibes-logo_small.png"
+						alt="boochvibes logo beachy scene"
+						width={125}
+						height={125}
+					/>
+				</a>
+			{/if}
 		</div>
 		<div class={flex({ gap: '2' })}>
 			<div class={flex({ justifyContent: 'center', alignItems: 'center' })}>
@@ -150,6 +150,6 @@
 	</div>
 </div>
 
-<div class={css({ maxW: { base: '100%', lg: '4xl' }, mx: 'auto', px: { base: '0', lg: '6' } })}>
+<div class={css({ maxW: { base: '100%', lg: '4xl' }, mx: 'auto', px: { base: 4, lg: 6 } })}>
 	<slot />
 </div>

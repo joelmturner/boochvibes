@@ -15,7 +15,7 @@ export async function load({ url, locals }) {
             brands (*)
         `
 		)
-		.eq('moderation', 'APPROVED');
+		.eq('moderation', 'APPROVED').order('created_at', { ascending: false }).limit(5);
 
 	const userId = (await locals.getSession())?.user.id;
 
