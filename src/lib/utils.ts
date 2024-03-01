@@ -1,3 +1,4 @@
+import type { Brand } from '../app';
 import type { Reviews } from '../types/supabase';
 
 export const average = (array: number[]) => array.reduce((a, b) => a + b) / array.length;
@@ -26,4 +27,8 @@ export function getRatingCounts(reviews: Reviews[] = []) {
 		ratingCount,
 		starCounts,
 	};
+}
+
+export function getBrandSlug(brand: Brand) {
+    return `${brand.id}-${brand.name.toLowerCase().replace(/ /g, '-')}`;
 }

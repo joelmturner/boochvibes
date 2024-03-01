@@ -1,8 +1,8 @@
 <script lang="ts">
-	import { card, flex, grid, hero } from 'styled-system/patterns';
-	import Card from '@components/Card.svelte';
+	import { flex } from 'styled-system/patterns';
 	import type { PageData } from './$types';
 	import { css } from 'styled-system/css';
+	import BoochGrid from '@components/BoochGrid.svelte';
 
 	export let data: PageData;
 	$: ({ brand, kombuchas } = data);
@@ -17,30 +17,27 @@
 </svelte:head>
 
 <div class={flex({ direction: 'column', gap: '4' })}>
-	<div class={hero({ gap: '1' })}>
-		<h1 class={css({ fontSize: '3xl' })}>{brand.name}</h1>
-		<div class={css({ fontSize: 'md' })}>
-			{brand.city}, {brand.state}
+	<div class={flex({ gap: '1', direction: 'column', justifyContent: 'center' })}>
+		<h1 class={css({ fontSize: '5xl', textAlign: 'center', lineHeight: 'tight' })}>{brand.name}</h1>
+		<div class={flex({ direction: 'column', justifyContent: 'center', lineHeight: 'tight' })}>
+			<div class={css({ fontSize: 'md', textAlign: 'center' })}>
+				{brand.city}, {brand.state}
+			</div>
+			{#if brand.url}
+				<a
+					href={brand.url}
+					class={css({
+						fontSize: 'md',
+						color: 'textMuted',
+						textDecoration: 'underline',
+						textAlign: 'center',
+					})}
+					target="_blank"
+					rel="noopener noreferrer">{`Visit ${brand.name}`}</a
+				>
+			{/if}
 		</div>
-		{#if brand.url}
-			<a
-				href={brand.url}
-				class={css({ fontSize: 'md', color: 'textMuted', textDecoration: 'underline' })}
-				target="_blank"
-				rel="noopener noreferrer">{`Visit ${brand.name}`}</a
-			>
-		{/if}
 	</div>
 
-	<div
-		class={grid({
-			columns: { base: 1, lg: 2 },
-			gap: '4',
-			pb: '4',
-		})}
-	>
-		{#each kombuchas as kombucha}
-			<div class={card()}><Card {kombucha} /></div>
-		{/each}
-	</div>
+	<BoochGrid {kombuchas} />
 </div>

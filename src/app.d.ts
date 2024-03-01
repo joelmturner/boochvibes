@@ -66,15 +66,13 @@ export type Kombucha = {
 	name: string | null;
 	brand: Brand;
 	rating: Rating;
-	image_url: string;
-	product_url: string;
-} & Partial<{
-	category: string;
-	color: string;
-	alcohol_level: number;
-	organic: boolean;
-	description: string;
-}>;
+	image_url: string | null;
+	category: string | null;
+	color: string | null;
+	alcohol_level: number | null;
+	organic: boolean | null;
+	description: string | null;
+};
 
 export type KombuchaWithReviews = Kombucha & {
 	reviews: Review[];

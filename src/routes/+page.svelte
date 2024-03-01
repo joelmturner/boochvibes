@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { card, grid } from 'styled-system/patterns';
-	import Card from '@components/Card.svelte';
+	import { card } from 'styled-system/patterns';
+	import BoochGrid from '@components/BoochGrid.svelte';
 
 	export let data;
 </script>
@@ -11,14 +11,4 @@
 	</p>
 {/if}
 
-<div
-	class={grid({
-		columns: { base: 1, lg: 3 },
-		gap: '4',
-		py: '5',
-	})}
->
-	{#each data.kombuchas as kombucha}
-		<div class={card()}><Card {kombucha} /></div>
-	{/each}
-</div>
+<BoochGrid kombuchas={data.kombuchas} />

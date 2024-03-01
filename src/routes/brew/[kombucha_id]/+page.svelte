@@ -5,6 +5,7 @@
 	import Reviews from '@components/Reviews.svelte';
 	import RatingDetailed from '@components/RatingDetailed.svelte';
 	import { CldImage } from 'svelte-cloudinary';
+	import { getBrandSlug } from '$lib/utils.js';
 
 	export let data;
 
@@ -50,7 +51,7 @@
 				textAlign: { base: 'center', md: 'left' },
 			})}
 		>
-			<a href={`/brand/${kombucha.brand.id}`}>{kombucha.brand.name}</a>
+			<a href={`/brand/${getBrandSlug(kombucha.brand)}`}>{kombucha.brand.name}</a>
 		</div>
 		{#if kombucha.description}
 			<div class={css({ letterSpacing: 'wide', mt: '2', fontSize: 'md', hideBelow: 'md' })}>

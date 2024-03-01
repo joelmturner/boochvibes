@@ -1,8 +1,15 @@
 import { getRatingCounts } from '$lib/utils';
-import type { Brand, Kombucha } from '../../../app';
+import type {Tables } from '../../../types/supabase';
+import type { Kombucha as KombuchaClient } from '../../../app';
+
+type Brand = Tables<'brands'>;
+type Kombucha = Tables<'kombuchas'>;
+type KombuchaWithReviews = Kombucha & { reviews: Tables<'reviews'>[] };
 
 export async function load({ params, locals }) {
-	const { data: brands, error: err } = await locals.supabase
+
+    const brandId = params.brand_id.split('-')[0];
+	const { data: brands } = await locals.supabase
 		.from('brands')
 		.select(
 			`
@@ -13,14 +20,14 @@ export async function load({ params, locals }) {
             )
         `
 		)
-		.eq('id', params.brand_id);
+		.eq('id', brandId);
 
 	const { kombucha: bKombucha, ...restBrand } = brands[0];
-	const brand: Brand = { ...restBrand };
+	const brand: Brand & { kombuchas: Kombucha[] } = { ...restBrand };
 
-	const kombuchas: Kombucha[] = brands?.[0]?.kombuchas
-		.filter((kombucha: any) => kombucha.moderation === 'APPROVED')
-		.map(({ created_at, brand_id, description, ...restAttributes }: any) => {
+	const kombuchas: Array<Omit<KombuchaClient, 'rating' | 'description'> & {rating: {avg: number; count: number}}> = (brands as Array<Brand & {kombuchas: KombuchaWithReviews[]}>)?.[0]?.kombuchas
+		.filter((kombucha) => kombucha.moderation === 'APPROVED')
+		.map(({ created_at, brand_id, description, ...restAttributes }) => {
 			const { avg, ratingCount } = getRatingCounts(restAttributes.reviews ?? []);
 
 			return {

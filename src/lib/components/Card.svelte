@@ -4,6 +4,7 @@
 	import Image from '@components/Image.svelte';
 	import Rating from './Rating.svelte';
 	import type { Kombucha } from '../../app';
+	import { getBrandSlug } from '$lib/utils';
 
 	export let kombucha: Kombucha;
 	export let highlight: boolean = false;
@@ -34,7 +35,7 @@
 				color: 'textMuted',
 			})}
 		>
-			<a href={`/brand/${kombucha.brand.id}`}>{kombucha.brand.name}</a>
+			<a href={`/brand/${getBrandSlug(kombucha.brand)}`}>{kombucha.brand.name}</a>
 		</div>
 		<Rating {rating} {count} size={highlight ? 'lg' : 'md'} onclick={onRatingClick} />
 		{#if kombucha.description}
