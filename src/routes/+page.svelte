@@ -40,6 +40,11 @@
 
 	<div class={flex({ direction: 'column', gap: 2 })}>
 		<h2 class={css({ fontSize: '2xl', fontWeight: 'bold' })}>Recently Added</h2>
-		<BoochGrid kombuchas={data.kombuchas} />
+		<BoochGrid kombuchas={data.recentBooches} />
+	</div>
+
+	<div class={flex({ direction: 'column', gap: 2 })}>
+		<h2 class={css({ fontSize: '2xl', fontWeight: 'bold' })}>All</h2>
+		<BoochGrid kombuchas={data.allBooches} />
 	</div>
 </div>

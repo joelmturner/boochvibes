@@ -4,6 +4,7 @@ import { fail } from '@sveltejs/kit';
 import { addBoochSchema } from './zSchema';
 import { message, superValidate } from 'sveltekit-superforms/server';
 import { zod } from 'sveltekit-superforms/adapters';
+import { slugify } from '$lib/utils';
 
 export const load = (async (event) => {
 	const { data: brands, error: err } = await event.locals.supabase
@@ -48,6 +49,7 @@ export const actions = {
 			ingredients: form.data.ingredients,
 			brand_id: brandId,
 			organic: form.data.organic,
+            slug: slugify(form.data.name)
 		});
 
 		if (err) {

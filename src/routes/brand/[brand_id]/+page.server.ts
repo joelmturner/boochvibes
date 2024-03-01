@@ -7,6 +7,7 @@ type Kombucha = Tables<'kombuchas'>;
 type KombuchaWithReviews = Kombucha & { reviews: Tables<'reviews'>[] };
 
 export async function load({ params, locals }) {
+    console.log('params', params);
 
     const brandId = params.brand_id.split('-')[0];
 	const { data: brands } = await locals.supabase

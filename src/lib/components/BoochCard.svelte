@@ -4,7 +4,7 @@
 	import Image from '@components/Image.svelte';
 	import Rating from './Rating.svelte';
 	import type { Kombucha } from '../../app';
-	import { getBrandSlug } from '$lib/utils';
+	import { getBrandSlug, slugify } from '$lib/utils';
 
 	export let kombucha: Omit<Kombucha, 'description' | 'rating'> & {
 		rating: {
@@ -30,7 +30,7 @@
 		})}
 	>
 		<a
-			href={`/brew/${kombucha.id}`}
+			href={`/brand/${getBrandSlug(kombucha.brand)}/${slugify(kombucha.name)}`}
 			class={css({ w: 'full', background: 'white', borderRadius: 'md', p: '1' })}
 		>
 			{#if kombucha.image_url}
@@ -47,7 +47,9 @@
 				lineHeight: { base: 1, lg: 1.2 },
 			})}
 		>
-			<a href={`/brew/${kombucha.id}`}>{kombucha.name}</a>
+			<a href={`/brand/${getBrandSlug(kombucha.brand)}/${slugify(kombucha.name)}`}
+				>{kombucha.name}</a
+			>
 		</div>
 		<div
 			class={css({

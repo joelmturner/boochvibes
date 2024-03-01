@@ -5,7 +5,7 @@
 	import Reviews from '@components/Reviews.svelte';
 	import RatingDetailed from '@components/RatingDetailed.svelte';
 	import { CldImage } from 'svelte-cloudinary';
-	import { getBrandSlug } from '$lib/utils.js';
+	import { getBrandSlug, slugify } from '$lib/utils.js';
 
 	export let data;
 
@@ -42,7 +42,9 @@
 				textAlign: { base: 'center', md: 'left' },
 			})}
 		>
-			<a href={`/brew/${kombucha.id}`}>{kombucha.name}</a>
+			<a href={`/brand/${getBrandSlug(kombucha.brand)}/${slugify(kombucha.name)}`}
+				>{kombucha.name}</a
+			>
 		</div>
 		<div
 			class={css({
@@ -66,7 +68,10 @@
 			gridColumn: { base: '1', md: 'span 5' },
 		})}
 	>
-		<a href={`/brew/${kombucha.id}`} class={css({ borderRadius: 'md', p: '1' })}>
+		<a
+			href={`/brand/${getBrandSlug(kombucha.brand)}/${slugify(kombucha.name)}`}
+			class={css({ borderRadius: 'md', p: '1' })}
+		>
 			<CldImage
 				src={kombucha.image_url}
 				alt={kombucha.name ?? 'kombucha'}

@@ -1,10 +1,9 @@
 import { supabase } from '$lib/supabaseClient';
-import { getRatingCounts } from '$lib/utils';
-import { redirect, type Actions } from '@sveltejs/kit';
+import { getRatingCounts, slugify } from '$lib/utils';
 import type { Brand, Kombucha } from '../app';
 
 export async function load({ url, locals }) {
-	const { data } = await supabase
+	const { data: recents } = await supabase
 		.from('kombuchas')
 		.select(
 			`
@@ -16,6 +15,19 @@ export async function load({ url, locals }) {
         `
 		)
 		.eq('moderation', 'APPROVED').order('created_at', { ascending: false }).limit(5);
+	
+        const { data: all } = await supabase
+		.from('kombuchas')
+		.select(
+			`
+            *,
+            reviews (
+                *
+            ),
+            brands (*)
+        `
+		)
+		.eq('moderation', 'APPROVED');
 
 	const userId = (await locals.getSession())?.user.id;
 
@@ -27,8 +39,25 @@ export async function load({ url, locals }) {
 	const username = userDetails?.[0]?.username ?? 'friend';
 	const registered = url.searchParams.has('registrationSuccess');
 
-	const kombuchas: Kombucha[] =
-		data?.map((kombucha) => {
+	const recentBooches: Kombucha[] =
+		recents?.map((kombucha) => {
+			const { avg, ratingCount: count, starCounts } = getRatingCounts(kombucha.reviews ?? []);
+			const { created_at, brand_id, brands, description, ...restAttributes } =
+				kombucha;
+
+			return {
+				...restAttributes,
+				brand: brands as Brand,
+				rating: {
+					avg,
+					count,
+                    starCounts
+				},
+			} as Kombucha;
+		}) ?? [];
+	
+    const allBooches: Kombucha[] =
+		all?.map((kombucha) => {
 			const { avg, ratingCount: count, starCounts } = getRatingCounts(kombucha.reviews ?? []);
 			const { created_at, brand_id, brands, description, ...restAttributes } =
 				kombucha;
@@ -45,7 +74,8 @@ export async function load({ url, locals }) {
 		}) ?? [];
 
 	return {
-		kombuchas,
+		recentBooches,
+        allBooches,
 		justRegistered: registered,
 		username,
 	};

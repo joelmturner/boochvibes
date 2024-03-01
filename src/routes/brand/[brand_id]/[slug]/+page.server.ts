@@ -2,10 +2,11 @@ import { getRatingCounts } from '$lib/utils';
 import { supabase } from '$lib/supabaseClient';
 import { AuthApiError } from '@supabase/supabase-js';
 import { fail, type Actions, redirect } from '@sveltejs/kit';
-import type { KombuchaWithReviews } from '../../../app';
+import type { KombuchaWithReviews } from '../../../../app';
 
 export async function load({ params, url, locals }) {
-	const { data: kombuchas, error } = await supabase
+    console.log('params', params);
+	const { data: kombuchas } = await supabase
 		.from('kombuchas')
 		.select(
 			`
@@ -18,12 +19,12 @@ export async function load({ params, url, locals }) {
             )
         `
 		)
-		.eq('id', params.kombucha_id);
+		.eq('slug', params.slug);
 
 	const reviews = kombuchas?.[0]?.reviews;
 
 	const users = reviews?.map((review) => !!review.user_id && review.user_id)?.filter(Boolean) ?? [];
-	const { data: userDetails, error: err2 } = await supabase
+	const { data: userDetails } = await supabase
 		.from('user_details')
 		.select()
 		.in('user_id', users);

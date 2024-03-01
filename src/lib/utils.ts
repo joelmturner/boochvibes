@@ -1,5 +1,8 @@
 import type { Brand } from '../app';
 import type { Reviews } from '../types/supabase';
+import _isString from 'lodash/isString';
+import _isEmpty from 'lodash/isEmpty';
+import _get from 'lodash/get';
 
 export const average = (array: number[]) => array.reduce((a, b) => a + b) / array.length;
 
@@ -32,3 +35,18 @@ export function getRatingCounts(reviews: Reviews[] = []) {
 export function getBrandSlug(brand: Brand) {
     return `${brand.id}-${brand.name.toLowerCase().replace(/ /g, '-')}`;
 }
+
+export function slugify(string: string) {
+    if (!_isString(string) || _isEmpty(string)) {
+      return "";
+    }
+  
+    return _get(string, "toString", () => string)
+      .call(string)
+      .toLowerCase()
+      .replace(/\s+/g, "-") // Replace spaces with -
+      .replace(/[^\w-]+/g, "") // Remove all non-word chars
+      .replace(/--+/g, "-") // Replace multiple - with single -
+      .replace(/^-+/, "") // Trim - from start of text
+      .replace(/-+$/, ""); // Trim - from end of text
+  }
