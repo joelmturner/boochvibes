@@ -6,6 +6,7 @@
 	import type { Rating } from '../../app';
 
 	export let rating: Rating;
+	const total = Object.values(rating.starCounts).reduce((acc, curr) => acc + curr, 0);
 </script>
 
 <div class={flex({ mx: 'auto', direction: 'column', gap: '2' })}>
@@ -45,7 +46,7 @@
 	{#each Object.keys(rating.starCounts).reverse() as starCountKey}
 		<div class={flex({ alignItems: 'center', gap: '2' })}>
 			{starCountKey}
-			<Progress val={rating.starCounts[starCountKey]} />
+			<Progress val={rating.starCounts[starCountKey]} {total} />
 		</div>
 	{/each}
 </div>

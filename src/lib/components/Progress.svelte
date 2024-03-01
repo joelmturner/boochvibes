@@ -4,6 +4,7 @@
 	import { css } from '../../../styled-system/css';
 
 	export let val: number;
+	export let total: number;
 	const value = writable(val);
 
 	const {
@@ -11,7 +12,7 @@
 		options: { max },
 	} = createProgress({
 		value,
-		max: 5,
+		max: total,
 	});
 </script>
 

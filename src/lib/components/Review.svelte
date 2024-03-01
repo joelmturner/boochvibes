@@ -3,8 +3,9 @@
 	import { flex } from 'styled-system/patterns';
 	import Rating from './Rating.svelte';
 	import Image from './Image.svelte';
+	import type { Review } from '../../app';
 
-	export let review: any;
+	export let review: Review;
 
 	let reviewHeight = 0;
 	let reviewExpanded = false;
@@ -36,7 +37,7 @@
 			<h2 class={css({ fontSize: { base: 'md', lg: 'xl' }, fontWeight: 'bold' })}>
 				{review.user.username}
 			</h2>
-			<Rating rating={review.user.rating} />
+			<Rating rating={review.rating} />
 		</div>
 	</div>
 	<div
