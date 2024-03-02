@@ -3,6 +3,7 @@ import { supabase } from '$lib/supabaseClient';
 import { AuthApiError } from '@supabase/supabase-js';
 import { fail, type Actions, redirect } from '@sveltejs/kit';
 import type { KombuchaWithReviews } from '../../../../app';
+import type { Tables } from '../../../../types/supabase';
 
 export async function load({ params, url, locals }) {
     console.log('params', params);
@@ -41,7 +42,13 @@ export async function load({ params, url, locals }) {
 	const userId = (await locals.getSession())?.user.id;
 	const userHasReviewed = reviews?.some((review) => review.user_id === userId);
 
-	const attributes = kombuchas?.[0] ?? ({} as any);
+    if (!kombuchas?.length) {
+        return fail(404, {
+            error: 'Kombucha not found',
+        });
+    }
+
+	const attributes = kombuchas[0];
 	const { created_at, brand_id, brands, ...restAttributes } = attributes;
 
 	const resolvedKombucha: KombuchaWithReviews = {
@@ -54,6 +61,12 @@ export async function load({ params, url, locals }) {
 			starCounts,
 		},
 	};
+
+    if (!resolvedKombucha) {
+        return fail(404, {
+            error: 'Kombucha not found',
+        });
+    }
 
 	return {
 		kombucha: resolvedKombucha,

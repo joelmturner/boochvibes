@@ -3,13 +3,14 @@
 	import type { Kombucha } from '../../app';
 	import BoochCard from './BoochCard.svelte';
 
-	export let kombuchas: Omit<Kombucha, 'description' | 'rating'> &
-		{
+	export let kombuchas: Array<
+		Omit<Kombucha, 'description' | 'rating'> & {
 			rating: {
 				avg: number;
 				count: number;
 			};
-		}[];
+		}
+	>;
 </script>
 
 <div

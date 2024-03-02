@@ -53,11 +53,13 @@
 			alignItems: 'flex-start',
 		})}
 	>
-		<a
-			href={`/brand/${getBrandSlug(kombucha.brand)}/${slugify(kombucha.name)}`}
-			class={css({ w: 'full', background: 'white', borderRadius: 'md', p: '1' })}
-		>
-			<Image src={kombucha.image_url} alt={kombucha.name ?? 'kombucha'} />
-		</a>
+		{#if kombucha.image_url}
+			<a
+				href={`/brand/${getBrandSlug(kombucha.brand)}/${slugify(kombucha.name)}`}
+				class={css({ w: 'full', background: 'white', borderRadius: 'md', p: '1' })}
+			>
+				<Image src={kombucha.image_url} alt={kombucha.name ?? 'kombucha'} />
+			</a>
+		{/if}
 	</div>
 </div>

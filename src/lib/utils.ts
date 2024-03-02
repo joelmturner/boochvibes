@@ -1,5 +1,5 @@
 import type { Brand } from '../app';
-import type { Reviews } from '../types/supabase';
+import type { Tables } from '../types/supabase';
 import _isString from 'lodash/isString';
 import _isEmpty from 'lodash/isEmpty';
 import _get from 'lodash/get';
@@ -7,7 +7,7 @@ import _get from 'lodash/get';
 export const average = (array: number[]) => array.reduce((a, b) => a + b) / array.length;
 
 const initialStarCounts = { '1': 0, '2': 0, '3': 0, '4': 0, '5': 0 } as const;
-function getStarCounts(reviews: Reviews[] = []) {
+function getStarCounts(reviews: Tables<'reviews'>[] = []) {
 	return reviews.reduce(
 		(acc, { rating }) => {
 			if (rating) {
@@ -20,7 +20,7 @@ function getStarCounts(reviews: Reviews[] = []) {
 	);
 }
 
-export function getRatingCounts(reviews: Reviews[] = []) {
+export function getRatingCounts(reviews: Tables<'reviews'>[] = []) {
 	const ratingCount = reviews.length;
 	const avg = ratingCount ? average(reviews.map((review) => review?.rating ?? 0)) : 0;
 	const starCounts = getStarCounts(reviews);
@@ -36,8 +36,8 @@ export function getBrandSlug(brand: Brand) {
     return `${brand.id}-${brand.name.toLowerCase().replace(/ /g, '-')}`;
 }
 
-export function slugify(string: string) {
-    if (!_isString(string) || _isEmpty(string)) {
+export function slugify(string: string | null ) {
+    if (!string || !_isString(string) || _isEmpty(string)) {
       return "";
     }
   

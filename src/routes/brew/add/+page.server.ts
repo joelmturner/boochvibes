@@ -1,5 +1,4 @@
 import { AuthApiError } from '@supabase/supabase-js';
-import type { PageServerLoad } from './$types';
 import { fail } from '@sveltejs/kit';
 import { addBoochSchema } from './zSchema';
 import { message, superValidate } from 'sveltekit-superforms/server';
@@ -7,10 +6,11 @@ import { zod } from 'sveltekit-superforms/adapters';
 import { slugify } from '$lib/utils';
 
 export const load = (async (event) => {
-	const { data: brands, error: err } = await event.locals.supabase
+	const { data: brands } = await event.locals.supabase
 		.from('brands')
 		.select()
 		.order('name', { ascending: true });
+        
 	const form = await superValidate(event, zod(addBoochSchema));
 	return {
 		brands,
@@ -30,7 +30,7 @@ export const actions = {
 
 		// if it's a new brand, add it first
 		if (typeof brandId === 'string') {
-			const { data: brands, error: brandError } = await supabase
+			const { data: brands } = await supabase
 				.from('brands')
 				.insert({
 					name: brandId,

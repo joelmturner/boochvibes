@@ -21,22 +21,15 @@ export {};
 
 export type Theme = 'system' | 'light' | 'dark';
 
-export type User = {
-	id: number;
-	created_at: string;
-	profile_url: string;
-	username: string;
-	user_id: string;
-};
+
 
 export type Review = {
 	id: number;
-	created_at: string; // date
-	kombucha_id: string;
-	user_id: string; // user
-	rating: number;
-	review: string;
-	user: User;
+	created_at: string | null; // date
+	kombucha_id: number | null;
+	rating: number | null;
+	review: string | null;
+	user?: Tables<'user_details'>;
 };
 
 export type Brand = {
@@ -64,7 +57,7 @@ export type Rating = {
 export type Kombucha = {
 	id: number;
 	name: string | null;
-	brand: Brand;
+	brand: Tables<'brands'>;
 	rating: Rating;
 	image_url: string | null;
 	category: string | null;
@@ -75,5 +68,5 @@ export type Kombucha = {
 };
 
 export type KombuchaWithReviews = Kombucha & {
-	reviews: Review[];
+	reviews?: Review[];
 };

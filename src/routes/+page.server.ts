@@ -39,7 +39,7 @@ export async function load({ url, locals }) {
 	const username = userDetails?.[0]?.username ?? 'friend';
 	const registered = url.searchParams.has('registrationSuccess');
 
-	const recentBooches: Kombucha[] =
+	const recentBooches: Array<Omit<Kombucha, 'description'>> =
 		recents?.map((kombucha) => {
 			const { avg, ratingCount: count, starCounts } = getRatingCounts(kombucha.reviews ?? []);
 			const { created_at, brand_id, brands, description, ...restAttributes } =
@@ -53,10 +53,10 @@ export async function load({ url, locals }) {
 					count,
                     starCounts
 				},
-			} as Kombucha;
+			} as Omit<Kombucha, 'description'>;
 		}) ?? [];
 	
-    const allBooches: Kombucha[] =
+    const allBooches: Array<Omit<Kombucha, 'description'>> =
 		all?.map((kombucha) => {
 			const { avg, ratingCount: count, starCounts } = getRatingCounts(kombucha.reviews ?? []);
 			const { created_at, brand_id, brands, description, ...restAttributes } =
@@ -70,7 +70,7 @@ export async function load({ url, locals }) {
 					count,
                     starCounts
 				},
-			} as Kombucha;
+			} as Omit<Kombucha, 'description'>;
 		}) ?? [];
 
 	return {
